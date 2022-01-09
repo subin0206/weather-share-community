@@ -36,7 +36,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String userPk, List<String> roles){
-        Claims claims = Jwts.claims().setSubject("userPk");
+        Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
     // header에서 토큰 가져오는 것
     public String resolveToken(HttpServletRequest request) {
         String token = null;
-        Cookie cookie = WebUtils.getCookie(request, "X_AUTH-TOKEN");
+        Cookie cookie = WebUtils.getCookie(request, "X-AUTH-TOKEN");
         if(cookie != null)
             token = cookie.getValue();
         return token;

@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.jwt.SecurityUtil;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class MemberService {
 
         return member.getId();
     }
+
 
 //    public void duplicationMember(MemberSaveRequestDto requestDto){
 //        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());

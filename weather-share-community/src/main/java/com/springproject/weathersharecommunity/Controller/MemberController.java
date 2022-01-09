@@ -9,13 +9,16 @@ import com.springproject.weathersharecommunity.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -36,14 +39,35 @@ public class MemberController {
 
     @PostMapping("user/login")
     @ResponseBody
-    public String login(@RequestBody Map<String, String> user) {
-        Member member = memberRepository.findByUserName(user.get("userName"))
+    public String login(@RequestBody MemberSaveRequestDto requestDto, HttpServletResponse response) {
+        Member member = memberRepository.findByUserName(requestDto.getUserName())
                 .orElseThrow(()->new IllegalArgumentException("가입되지 않은 아이디입니다."));
-        if(!passwordEncoder.matches(user.get("pwd"),member.getPassword())){
+        if(!passwordEncoder.matches(requestDto.getPwd(),member.getPassword())){
             throw new IllegalArgumentException("잘못된 비밀번호 입니다.");
         }
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
-
+        System.out.println(member.getUsername()+" member user name");
+        String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        response.setHeader("X-AUTH-TOKEN", token);
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+        return token;
     }
 
+    @PostMapping("user/logout")
+    public void logout(HttpServletResponse response){
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+    @GetMapping("user/info")
+    public String info(){
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return user.getAuthorities().toString() + "/" + member.getUserEmail();
+    }
 }
