@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 public class Board {
 
     @Id @GeneratedValue
@@ -20,7 +20,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
 
     private boolean privacy;
 
@@ -30,4 +30,7 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Image> images = new ArrayList<>();
+
+    //댓글
+
 }
