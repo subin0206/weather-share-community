@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -70,4 +71,12 @@ public class MemberController {
         Member member = (Member) user.getPrincipal();
         return user.getAuthorities().toString() + "/" + member.getUserEmail();
     }
+
+    @GetMapping("confirm-email")
+    public String viewConfirmEmail(@Valid @RequestParam String token) {
+        memberService.confirmEmail(token);
+        return "redirect:/test";
+    }
+
+
 }
