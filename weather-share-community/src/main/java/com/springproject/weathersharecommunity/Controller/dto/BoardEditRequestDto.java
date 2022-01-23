@@ -4,32 +4,29 @@ import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.domain.WeatherStatus;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class BoardRequestDto {
-
-    private Board board;
+@NoArgsConstructor
+public class BoardEditRequestDto {
 
     private long boardId;
-
-    private Member member;
 
     private String content;
 
     private boolean privacy;
 
-    private LocalDateTime createDate = LocalDateTime.now();
+    public BoardEditRequestDto(long boardId, String content, boolean privacy){
+        this.boardId = boardId;
+        this.content = content;
+        this.privacy = privacy;
+    }
 
-    private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
-
-    private List<Image> images = new ArrayList<>();
 }

@@ -1,7 +1,9 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ public class Board {
 
     private boolean privacy;
 
+    @CreatedDate
     private LocalDateTime createDate;
 
     private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
@@ -31,6 +34,8 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Image> images = new ArrayList<>();
 
-    //댓글
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "board")
+    @JoinColumn(name = "clothes_id")
+    private Clothes clothes;
 
 }

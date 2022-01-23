@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.service;
 
+import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class BoardService {
     }
 
     //글 수정
-    public void updateBoard(long id, String content, boolean privacy){
-        Board board = boardRepository.findOne(id);
-        board.setContent(content);
-        board.setPrivacy(privacy);
-
+    @Transactional
+    public void updateBoard(BoardEditRequestDto dto){
+        Board board = boardRepository.findOne(dto.getBoardId());
+        board.setContent(dto.getContent());
+        board.setPrivacy(dto.isPrivacy());
     }
 
     //전체 회원 조회
