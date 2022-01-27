@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 public class WeatherShareCommunityApplication {
 	public static void main(String[] args) {
+
 		SpringApplication.run(WeatherShareCommunityApplication.class, args);
 	}
 
