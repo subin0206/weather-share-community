@@ -7,6 +7,8 @@ import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,11 @@ public class MemberService {
         member.emailVerifiedSuccess();
     }
 
+    public Member findByName(String userName) {
+        Member member = memberRepository.findByUserName(userName)
+                .orElseThrow(()->new IllegalArgumentException("없는 멤버입니다."));
+        return member;
+    }
 
 //    public void duplicationMember(MemberSaveRequestDto requestDto){
 //        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());
