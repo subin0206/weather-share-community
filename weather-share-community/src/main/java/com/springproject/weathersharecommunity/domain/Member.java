@@ -32,15 +32,19 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String pwd;
 
+    @Column
+    private Boolean emailAuth;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    public Member(String userName, String userEmail, String pwd) {
+    public Member(String userName, String userEmail, String pwd, Boolean emailAuth) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.pwd = pwd;
+        this.emailAuth = emailAuth;
     }
 
     @Override
@@ -78,5 +82,9 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void emailVerifiedSuccess(){
+        this.emailAuth = false;
     }
 }
