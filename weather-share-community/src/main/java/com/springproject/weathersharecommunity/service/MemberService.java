@@ -37,7 +37,8 @@ public class MemberService {
         Member member = memberRepository.findById(Long.valueOf(findConfirmToken.getUserId()))
                 .orElseThrow(()->new IllegalArgumentException("없는 멤버입니다."));
         findConfirmToken.useToken();
-        member.emailVerifiedSuccess();
+        member.setEmailAuth(true);
+
     }
 
 
