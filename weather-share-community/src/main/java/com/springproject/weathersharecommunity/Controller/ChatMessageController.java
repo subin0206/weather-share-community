@@ -12,12 +12,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +27,9 @@ public class ChatMessageController {
     private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MemberService memberService;
+    private String userName;
 
+    @GetMapping("/chat")
     public String chatHome(Model model) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
@@ -49,14 +49,14 @@ public class ChatMessageController {
     @PostMapping("/chat/newChat")
     public String newChat(@RequestParam("receiver") String user1, @RequestParam("sender") String user2) {
         Long chatRoomId = chatService.newRoom(user1, user2);
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getDetails();
+        userName = member.getUsername();
         return "redirect:/personalChat/"+chatRoomId;
     }
 
     @RequestMapping("/personalChat/{chatRoomId}")
     public String goChat(@PathVariable("chatRoomId") Long chatRoomId, Model model) {
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) user.getPrincipal();
-        String userName = member.getUsername();
         ChatRoom chatRoom = chatService.findById(chatRoomId);
         List<ChatMessage> messages = chatRoom.getMessageList();
         Collections.sort(messages, (t1, t2)-> {
@@ -69,7 +69,7 @@ public class ChatMessageController {
             model.addAttribute("userId",0);
         } else{
             model.addAttribute("userName", userName);
-            model.addAttribute("userId", member.getId());
+            model.addAttribute("userId", memberService.findByName(userName).getId());
         }
         List<ChatRoomJoin> list = chatService.findByChatRoom(chatRoom);
         model.addAttribute("messages", messages);
