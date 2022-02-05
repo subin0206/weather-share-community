@@ -3,11 +3,14 @@ package com.springproject.weathersharecommunity.Controller;
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
+import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.service.BoardService;
 import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.annotation.Reference;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -39,8 +42,10 @@ public class BoardController {
             return board;
             //return "board/createBoardForm";
         }
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
 
-        board.setMember(boardRequestDto.getMember());
+        board.setMember(member);
         board.setContent(boardRequestDto.getContent());
         board.setImages(boardRequestDto.getImages());
         board.setCreateDate(boardRequestDto.getCreateDate());

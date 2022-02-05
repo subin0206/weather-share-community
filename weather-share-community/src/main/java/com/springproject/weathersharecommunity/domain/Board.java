@@ -1,5 +1,7 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Member member;
 
     private boolean privacy;
@@ -38,4 +41,21 @@ public class Board {
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 
+    @OneToMany(mappedBy = "board")
+    @JsonIgnore
+    private List<Likes> likesList;
+
+    private long likesCount;
+
+    public void mappingBoardLike(Likes likes) {
+        this.likesList.add(likes);
+    }
+
+    public void updateLikeCount() {
+        this.likesCount = likesList.size();
+    }
+
+    public void discountLike(Likes likes) {
+        this.likesList.remove(likes);
+    }
 }

@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,12 +40,22 @@ public class Member implements UserDetails {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
+    @Column
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Likes> likesList = new ArrayList<>();
+
     @Builder
-    public Member(String userName, String userEmail, String pwd, Boolean emailAuth) {
+    public Member(String userName, String userEmail, String pwd, List<String> roles, Boolean emailAuth) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.pwd = pwd;
+        this.roles = roles;
         this.emailAuth = emailAuth;
+    }
+
+    public void mappingBoardLike(Likes likes) {
+        this.likesList.add(likes);
     }
 
     @Override
