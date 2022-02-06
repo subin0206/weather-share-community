@@ -53,7 +53,6 @@ public class ScrapeService {
         List<ScrapeListResponseDto> list = scrapeRepository.findAllByMember(member)
                 .stream().map(ScrapeListResponseDto::new)
                 .collect(Collectors.toList());
-        System.out.println(list.get(0).getBoard() + "list size");
         return  list;
     }
 }

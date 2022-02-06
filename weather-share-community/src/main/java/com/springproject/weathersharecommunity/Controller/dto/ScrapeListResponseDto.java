@@ -15,13 +15,13 @@ import java.util.List;
 public class ScrapeListResponseDto {
     private Long id;
     private List<Image> image;
-    private Member member;
-    private Board board;
+    private String memberName;
+    private Long boardId;
 
     public ScrapeListResponseDto(Scrape entity) {
         this.id = entity.getId();
         this.image = entity.getBoard().getImages();
-        this.member = entity.getMember();
-        this.board = entity.getBoard();
+        this.memberName = entity.getMember().getUsername();
+        this.boardId = entity.getBoard().getId();
     }
 }

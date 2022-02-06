@@ -1,41 +1,26 @@
 package com.springproject.weathersharecommunity.Controller.dto;
 
-import com.springproject.weathersharecommunity.domain.Board;
-import com.springproject.weathersharecommunity.domain.Image;
-import com.springproject.weathersharecommunity.domain.Member;
-import com.springproject.weathersharecommunity.domain.WeatherStatus;
+import com.springproject.weathersharecommunity.domain.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
+@NoArgsConstructor
 public class LikesListResponseDto {
-    private Board board;
+    private int id;
+    private List<Image> image;
+    private String memberName;
+    private Long boardId;
 
-    private long boardId;
-
-    private Member member;
-
-    private String content;
-
-    private boolean privacy;
-
-    private LocalDateTime createDate = LocalDateTime.now();
-
-    private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
-
-    private List<Image> images = new ArrayList<>();
-
-    public LikesListResponseDto(Board entity) {
-        this.board = board;
-        this.boardId = boardId;
-        this.member = member;
-        this.content = content;
-        this.privacy = privacy;
-        this.createDate = createDate;
-        this.status = status;
-        this.images = images;
+    public LikesListResponseDto(Likes entity) {
+        this.id = entity.getId();
+        this.image = entity.getBoard().getImages();
+        this.memberName = entity.getMember().getUsername();
+        this.boardId = entity.getBoard().getId();
     }
 }

@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.Controller;
 
 
 import com.springproject.weathersharecommunity.Controller.dto.LikeSaveRequestDto;
+import com.springproject.weathersharecommunity.Controller.dto.LikesListResponseDto;
 import com.springproject.weathersharecommunity.domain.Likes;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.repository.LikesRepository;
@@ -27,7 +28,7 @@ public class LikeController {
     }
 
     @GetMapping("/user/likes")
-    public List<Likes> likesList() {
+    public List<LikesListResponseDto> likesList() {
         return likesService.likesList();
     }
 

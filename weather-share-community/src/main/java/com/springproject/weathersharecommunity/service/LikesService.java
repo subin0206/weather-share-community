@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.LikeSaveRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.LikesListResponseDto;
+import com.springproject.weathersharecommunity.Controller.dto.ScrapeListResponseDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Likes;
 import com.springproject.weathersharecommunity.domain.Member;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -48,11 +50,14 @@ public class LikesService {
 //        likesRepository.save(new Likes(board,member));
     }
 
-    @Transactional
-    public List<Likes> likesList() {
+    @Transactional(readOnly = true)
+    public List<LikesListResponseDto> likesList() {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
-        return likesRepository.findAllByMemberId(member.getId());
+        List<LikesListResponseDto> list = likesRepository.findAllByMemberId(member.getId())
+                .stream().map(LikesListResponseDto::new)
+                .collect(Collectors.toList());
+        return list;
     }
 
 
