@@ -45,6 +45,10 @@ public class Board {
     @JsonIgnore
     private List<Likes> likesList;
 
+    @OneToMany(mappedBy = "board")
+    @JsonIgnore
+    private List<Scrape> scrapeList;
+
     private long likesCount;
 
     public void mappingBoardLike(Likes likes) {

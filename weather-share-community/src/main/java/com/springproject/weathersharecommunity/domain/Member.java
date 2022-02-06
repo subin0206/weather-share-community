@@ -45,6 +45,11 @@ public class Member implements UserDetails {
     @JsonIgnore
     private List<Likes> likesList = new ArrayList<>();
 
+    @Column
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Scrape> scrapesList = new ArrayList<>();
+
     @Builder
     public Member(String userName, String userEmail, String pwd, List<String> roles, Boolean emailAuth) {
         this.userName = userName;
