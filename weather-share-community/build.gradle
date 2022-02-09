@@ -40,6 +40,9 @@ dependencies {
 	implementation 'org.glassfish.jaxb:jaxb-runtime'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	//s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 test {
