@@ -21,6 +21,7 @@ public class BoardService {
     //글 쓰기
     public long create(Board board){
         boardRepository.save(board);
+
         return board.getId();
     }
 
