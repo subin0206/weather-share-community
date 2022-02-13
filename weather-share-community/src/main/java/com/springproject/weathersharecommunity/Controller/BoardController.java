@@ -3,18 +3,17 @@ package com.springproject.weathersharecommunity.Controller;
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
+import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.service.BoardService;
-import jdk.jfr.Event;
+import com.springproject.weathersharecommunity.service.S3FileUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.data.annotation.Reference;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,6 +25,8 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    private final S3FileUploadService fileUploadService;
+
 //    @GetMapping("/boards/new")
 //    public String createForm(Model model) {
 //        model.addAttribute("BoardRequestDto", new BoardRequestDto());
@@ -34,24 +35,25 @@ public class BoardController {
 
     //글 등록
     @PostMapping("/boards/new")
-    public Board create(@Valid @RequestBody BoardRequestDto boardRequestDto, BindingResult result) {
+    public Board create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
 
         Board board = new Board();
 
-        if (result.hasErrors()) {
-            return board;
-            //return "board/createBoardForm";
-        }
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) user.getPrincipal();
 
-        board.setMember(member);
+       Authentication user = SecurityContextHolder.getContext().getAuthentication();
+       Member member = (Member) user.getPrincipal();
+
+       fileUploadService.uploadImage(images);
+
+       board.setMember(member);
+
         board.setContent(boardRequestDto.getContent());
-        board.setImages(boardRequestDto.getImages());
         board.setCreateDate(boardRequestDto.getCreateDate());
         board.setStatus(boardRequestDto.getStatus());
         board.setPrivacy(boardRequestDto.isPrivacy());
+        board.setImages(fileUploadService.uploadImage(images));
 
+    
         boardService.create(board);
 
         return board;

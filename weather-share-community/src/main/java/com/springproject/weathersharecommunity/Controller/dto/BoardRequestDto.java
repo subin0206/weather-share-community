@@ -7,6 +7,7 @@ import com.springproject.weathersharecommunity.domain.WeatherStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.tomcat.jni.Local;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
@@ -31,5 +32,5 @@ public class BoardRequestDto {
 
     private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
 
-    private List<Image> images = new ArrayList<>();
+    //private List<MultipartFile> images;
 }
