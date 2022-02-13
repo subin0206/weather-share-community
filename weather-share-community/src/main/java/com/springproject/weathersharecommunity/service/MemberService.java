@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.service;
 
+import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.ConfirmToken;
 import com.springproject.weathersharecommunity.domain.Member;
@@ -11,7 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -22,10 +25,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final ConfirmTokenService confirmTokenService;
+    private final S3FileUploadService s3FileUploadService;
     @Transactional
-    public Long save(MemberSaveRequestDto requestDto){
+    public Long save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
 //        duplicationMember(requestDto);
         requestDto.setPwd(passwordEncoder.encode(requestDto.getPwd()));
+        requestDto.setProfileUrl(s3FileUploadService.uploadImage(multipartFile, "user"));
         Member member = memberRepository.save(requestDto.toEntity());
         confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
 
@@ -41,7 +46,22 @@ public class MemberService {
 
     }
 
+    @Transactional(readOnly = true)
+    public MemberResponseDto myPage(Long memberId) {
+        Member entity = memberRepository.findById(memberId)
+                .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+        return new MemberResponseDto(entity);
+    }
 
+    @Transactional
+    public String ProfileImgUpdate(Long memberId ,MultipartFile multipartFile) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+        s3FileUploadService.deleteFile(member.getProfileUrl(),"user");
+        member.updateProfile(s3FileUploadService.uploadImage(multipartFile,"user"));
+        return member.getProfileUrl();
+
+    }
 //    public void duplicationMember(MemberSaveRequestDto requestDto){
 //        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());
 //        if (checkMember.isPresent()) {

@@ -20,10 +20,11 @@ import java.util.UUID;
 @Service
 public class S3FileUploadService {
     private final UploadService s3Service;
-
+    private final AmazonS3Client amazonS3Client;
+    private final S3Component s3Component;
     //Multipart를 통해 전송된 파일을 업로드 하는 메소드
-    public String uploadImage(MultipartFile file){
-        String fileName = createFileName(file.getOriginalFilename());
+    public String uploadImage(MultipartFile file, String dir){
+        String fileName = dir +"/"+ createFileName(file.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         objectMetadata.setContentType(file.getContentType());
@@ -34,6 +35,15 @@ public class S3FileUploadService {
         }
         return s3Service.getFileUrl(fileName);
     }
+
+    public void deleteFile(String url, String dir) {
+        if(url==null)
+            return;
+        String[] temp = url.split("/");
+        amazonS3Client.deleteObject(s3Component.getBucket(),dir + "/" + temp[temp.length-1]);
+
+    }
+
 
     //기존 확장자명 유지한 채로 유니크한 파일 이름을 생성하는 로직
     private String createFileName(String originalFileName) {

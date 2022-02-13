@@ -50,11 +50,15 @@ public class Member implements UserDetails {
     @JsonIgnore
     private List<Scrape> scrapesList = new ArrayList<>();
 
+    @Column
+    private String profileUrl;
+
     @Builder
-    public Member(String userName, String userEmail, String pwd, List<String> roles, Boolean emailAuth) {
+    public Member(String userName, String userEmail, String pwd, String profileUrl,List<String> roles, Boolean emailAuth) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.pwd = pwd;
+        this.profileUrl = profileUrl;
         this.roles = roles;
         this.emailAuth = emailAuth;
     }
@@ -63,6 +67,9 @@ public class Member implements UserDetails {
         this.likesList.add(likes);
     }
 
+    public void updateProfile(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
