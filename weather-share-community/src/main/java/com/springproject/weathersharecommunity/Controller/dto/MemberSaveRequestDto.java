@@ -14,6 +14,7 @@ public class MemberSaveRequestDto {
     private String userName;
     private String userEmail;
     private String pwd;
+    private String profileUrl;
     private ArrayList<String> roles;
     @Builder
     public MemberSaveRequestDto(String userName, String userEmail, String pwd) {
@@ -27,6 +28,7 @@ public class MemberSaveRequestDto {
                 .userName(userName)
                 .userEmail(userEmail)
                 .pwd(pwd)
+                .profileUrl(profileUrl)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
     }
