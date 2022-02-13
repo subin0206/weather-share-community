@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.jwt;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +27,7 @@ import java.util.List;
 public class JwtTokenProvider {
     private String secretKey = "thisissecretkey";
 
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private long tokenValidTime = 1000L * 60 * 60 * 24 * 60;
 
     private final UserDetailsService userDetailsService;
 
@@ -73,5 +74,4 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
 }
