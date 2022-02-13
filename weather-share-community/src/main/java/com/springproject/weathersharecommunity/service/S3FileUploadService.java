@@ -25,6 +25,8 @@ import java.util.UUID;
 public class S3FileUploadService {
     private final UploadService s3Service;
 
+    private final AmazonS3Client amazonS3Client;
+    private final S3Component s3Component;
     @Autowired
     ImageRepository imageRepository;
 
@@ -34,23 +36,6 @@ public class S3FileUploadService {
         List<Image> imageList = new ArrayList<>();
 
         for(MultipartFile multipartFile : files) {
-
-//            String originFileExtension;
-//            String contentType = multipartFile.getContentType();
-//
-//            if(ObjectUtils.isEmpty(contentType)){
-//                break;
-//            }
-//            else{
-//                if(contentType.contains("image/jpeg"))
-//                    originFileExtension = ".jpg";
-//                else if(contentType.contains("image/png"))
-//                    originFileExtension = ".png";
-//                else
-//                    break;
-//            }
-//
-//            String new_file_name = System.nanoTime() + originFileExtension;
 
             String fileName = createFileName(multipartFile.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -65,11 +50,34 @@ public class S3FileUploadService {
             Image image = new Image(fileName, s3Service.getFileUrl(fileName), multipartFile.getSize());
             imageRepository.save(image);
             imageList.add(image);
-//            return s3Service.getFileUrl(fileName);
+            return imageList;
+          
+        }
+    }
+
+    //Multipart를 통해 전송된 파일을 업로드 하는 메소드
+    public String uploadImage(MultipartFile file, String dir){
+        String fileName = dir +"/"+ createFileName(file.getOriginalFilename());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+        try (InputStream inputStream = file.getInputStream()) {
+            s3Service.uploadFile(inputStream, objectMetadata, fileName);
+        } catch(IOException e){
+            throw new IllegalArgumentException(String.format("파일 변환 중 오류 발생 ($s)", file.getOriginalFilename()));
         }
 
-        return imageList;
+        return return s3Service.getFileUrl(fileName);
     }
+
+    public void deleteFile(String url, String dir) {
+        if(url==null)
+            return;
+        String[] temp = url.split("/");
+        amazonS3Client.deleteObject(s3Component.getBucket(),dir + "/" + temp[temp.length-1]);
+
+    }
+
 
     //기존 확장자명 유지한 채로 유니크한 파일 이름을 생성하는 로직
     private String createFileName(String originalFileName) {

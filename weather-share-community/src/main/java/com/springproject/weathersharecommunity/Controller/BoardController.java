@@ -39,18 +39,21 @@ public class BoardController {
 
         Board board = new Board();
 
-//        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-//        Member member = (Member) user.getPrincipal();
-//
-//        fileUploadService.uploadImage(images);
-//
-//        board.setMember(member);
+
+       Authentication user = SecurityContextHolder.getContext().getAuthentication();
+       Member member = (Member) user.getPrincipal();
+
+       fileUploadService.uploadImage(images);
+
+       board.setMember(member);
 
         board.setContent(boardRequestDto.getContent());
         board.setCreateDate(boardRequestDto.getCreateDate());
         board.setStatus(boardRequestDto.getStatus());
         board.setPrivacy(boardRequestDto.isPrivacy());
         board.setImages(fileUploadService.uploadImage(images));
+
+    
         boardService.create(board);
 
         return board;

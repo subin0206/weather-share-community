@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.Controller;
 
+import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.Controller.dto.ApiResponse;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
@@ -15,10 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -31,10 +35,10 @@ public class MemberController {
 
     @PostMapping("user/join")
     @ResponseBody
-    public Long join(@Validated @RequestBody MemberSaveRequestDto requestDto){
+    public Long join(@Validated @RequestPart(value = "requestDto",required = false) MemberSaveRequestDto requestDto, @RequestPart(value = "profile", required = false) final MultipartFile multipartFile) throws IOException {
 
         System.out.println("bbbbbbbb" + requestDto.getPwd());
-        return memberService.save(requestDto);
+        return memberService.save(requestDto, multipartFile);
     }
 
     @PostMapping("user/login")
@@ -70,4 +74,26 @@ public class MemberController {
         Member member = (Member) user.getPrincipal();
         return user.getAuthorities().toString() + "/" + member.getUserEmail();
     }
+
+    @GetMapping("user/mypage")
+    public MemberResponseDto myPage() {
+
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return memberService.myPage(member.getId());
+    }
+    @GetMapping("confirm-email")
+    public String viewConfirmEmail(@Valid @RequestParam String token) {
+        memberService.confirmEmail(token);
+        return "redirect:/test";
+    }
+
+    @PostMapping("user/mypage/edit/profile")
+    public String ProfileUpdate(@RequestPart(value = "profile", required = false) final MultipartFile multipartFile) {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return memberService.ProfileImgUpdate(member.getId(),multipartFile);
+    }
+
+
 }
