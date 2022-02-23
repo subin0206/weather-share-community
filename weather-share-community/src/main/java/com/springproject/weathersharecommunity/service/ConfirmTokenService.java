@@ -27,7 +27,8 @@ public class ConfirmTokenService {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(receiverEmail);
-        mailMessage.setText("http:localhost:8070/confirm-email?token="+confirmToken.getId());
+//        mailMessage.setText("http:localhost:8070/confirm-email?token="+confirmToken.getId());
+        mailMessage.setText("http:52.78.183.55:8080/confirm-email?token="+confirmToken.getId());
         emailSenderService.sendEmail(mailMessage);
         return confirmToken.getId();
     }

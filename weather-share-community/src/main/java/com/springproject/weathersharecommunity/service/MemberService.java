@@ -4,6 +4,7 @@ import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.ConfirmToken;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.http.ResponseMessage;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,13 @@ public class MemberService {
         member.updateProfile(s3FileUploadService.uploadImage(multipartFile,"user"));
         return member.getProfileUrl();
 
+    }
+
+    @Transactional
+    public Member findByUserName(MemberSaveRequestDto requestDto) {
+        Member member = memberRepository.findByUserName(requestDto.getUserName())
+                .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+        return member;
     }
 //    public void duplicationMember(MemberSaveRequestDto requestDto){
 //        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());

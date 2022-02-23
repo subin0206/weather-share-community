@@ -4,6 +4,9 @@ import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.Controller.dto.ApiResponse;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
+import com.springproject.weathersharecommunity.http.DefaultRes;
+import com.springproject.weathersharecommunity.http.ResponseMessage;
+import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.jwt.JwtTokenProvider;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import com.springproject.weathersharecommunity.service.MemberService;
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -43,11 +47,11 @@ public class MemberController {
 
     @PostMapping("user/login")
     @ResponseBody
-    public String login(@RequestBody MemberSaveRequestDto requestDto, HttpServletResponse response) {
-        Member member = memberRepository.findByUserName(requestDto.getUserName())
-                .orElseThrow(()->new IllegalArgumentException("가입되지 않은 아이디입니다."));
+    public ResponseEntity login(@RequestBody MemberSaveRequestDto requestDto, HttpServletResponse response) {
+        Member member = memberService.findByUserName(requestDto);
+
         if(!passwordEncoder.matches(requestDto.getPwd(),member.getPassword())){
-            throw new IllegalArgumentException("잘못된 비밀번호 입니다.");
+            return new ResponseEntity(DefaultRes.defaultRes(StatusCode.NOT_FOUND, ResponseMessage.PASSWORD_ERROR), HttpStatus.NOT_FOUND);
         }
         System.out.println(member.getUsername()+" member user name");
         String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
@@ -56,7 +60,7 @@ public class MemberController {
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
-        return token;
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS, token), HttpStatus.OK);
     }
 
     @PostMapping("user/logout")

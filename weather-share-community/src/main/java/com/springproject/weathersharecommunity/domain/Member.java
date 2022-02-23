@@ -53,6 +53,8 @@ public class Member implements UserDetails {
     @Column
     private String profileUrl;
 
+    @OneToMany(mappedBy = "member")
+    private List<Reply> replies;
     @Builder
     public Member(String userName, String userEmail, String pwd, String profileUrl,List<String> roles, Boolean emailAuth) {
         this.userName = userName;
