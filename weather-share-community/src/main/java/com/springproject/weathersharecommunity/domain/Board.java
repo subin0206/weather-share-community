@@ -53,6 +53,7 @@ public class Board {
     private long likesCount;
 
     @OneToMany(mappedBy = "board")
+    @JsonBackReference
     private List<Reply> replies;
 
     public void mappingBoardLike(Likes likes) {

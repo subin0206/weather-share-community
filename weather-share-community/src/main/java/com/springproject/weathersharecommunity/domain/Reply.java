@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,7 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "boardId")
+    @JsonManagedReference
     private Board board;
 
     @ManyToOne
