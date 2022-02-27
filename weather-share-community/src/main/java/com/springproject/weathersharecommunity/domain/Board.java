@@ -25,7 +25,6 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private Member member;
 
     private boolean privacy;
@@ -67,4 +66,10 @@ public class Board {
     public void discountLike(Likes likes) {
         this.likesList.remove(likes);
     }
+
+    private String presentTemperature;
+
+    private String highestTemperature;
+
+    private String lowestTemperature;
 }

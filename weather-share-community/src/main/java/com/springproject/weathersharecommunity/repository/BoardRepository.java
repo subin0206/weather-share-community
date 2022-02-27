@@ -1,7 +1,9 @@
 package com.springproject.weathersharecommunity.repository;
 
 import com.springproject.weathersharecommunity.domain.Board;
+import com.springproject.weathersharecommunity.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.util.ProxyUtils;
 import org.springframework.stereotype.Repository;
@@ -27,18 +29,21 @@ public class BoardRepository {
         }
     }
 
+    @EntityGraph(attributePaths = "member")
     public Board findOne(Long id){
-
         return em.find(Board.class, id);
     }
 
+//    @EntityGraph(attributePaths = "member")
     public List<Board> findAll(){
-        return em.createQuery("select b from Board b", Board.class)
+//        return em.createQuery("select b from Board b", Board.class)
+//                .getResultList();
+        return em.createQuery("select distinct b from Board b join fetch b.member", Board.class)
                 .getResultList();
     }
 
     public List<Board> findByUser(Long user){
-        return em.createQuery("select b from Board b where b.user = :user", Board.class)
+        return em.createQuery("select b from Board b where b.user = :user", Board.class) //member 필드 가져올 수 있도록 쿼리 변경
                 .setParameter("user", user)
                 .getResultList();
     }

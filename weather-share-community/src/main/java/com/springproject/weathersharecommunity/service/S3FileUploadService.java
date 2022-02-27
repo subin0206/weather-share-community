@@ -51,7 +51,6 @@ public class S3FileUploadService {
             Image image = new Image(fileName, s3Service.getFileUrl(fileName), multipartFile.getSize());
             imageRepository.save(image);
             imageList.add(image);
-
         }
         return imageList;
     }
