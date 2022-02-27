@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.springproject.weathersharecommunity.domain.clothes.Clothes;
@@ -24,7 +25,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonBackReference
     private Member member;
 
     private boolean privacy;
@@ -50,6 +51,10 @@ public class Board {
     private List<Scrape> scrapeList;
 
     private long likesCount;
+
+    @OneToMany(mappedBy = "board")
+    @JsonBackReference
+    private List<Reply> replies;
 
     public void mappingBoardLike(Likes likes) {
         this.likesList.add(likes);
