@@ -24,5 +24,5 @@ public class FileUploadController {
 //     public String uploadImage(@RequestPart MultipartFile file ){
 //         return fileUploadService.uploadImage(file, "");
 
-//     }
+     }
 }

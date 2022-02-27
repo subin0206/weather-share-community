@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.repository.ImageRepository;
@@ -50,9 +51,8 @@ public class S3FileUploadService {
             Image image = new Image(fileName, s3Service.getFileUrl(fileName), multipartFile.getSize());
             imageRepository.save(image);
             imageList.add(image);
-            return imageList;
-          
         }
+        return imageList;
     }
 
     //Multipart를 통해 전송된 파일을 업로드 하는 메소드
@@ -67,7 +67,7 @@ public class S3FileUploadService {
             throw new IllegalArgumentException(String.format("파일 변환 중 오류 발생 ($s)", file.getOriginalFilename()));
         }
 
-        return return s3Service.getFileUrl(fileName);
+        return s3Service.getFileUrl(fileName);
     }
 
     public void deleteFile(String url, String dir) {

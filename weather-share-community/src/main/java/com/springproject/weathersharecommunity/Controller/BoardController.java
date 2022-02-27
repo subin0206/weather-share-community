@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.Controller;
 
+import com.google.gson.Gson;
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
@@ -8,7 +9,11 @@ import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.event.internal.DefaultResolveNaturalIdEventListener;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -20,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @ConfigurationProperties(prefix="server.upload")
 public class BoardController {
 
@@ -39,34 +45,59 @@ public class BoardController {
 
         Board board = new Board();
 
+//       Authentication user = SecurityContextHolder.getContext().getAuthentication();
+//       Member member = (Member) user.getPrincipal();
 
-       Authentication user = SecurityContextHolder.getContext().getAuthentication();
-       Member member = (Member) user.getPrincipal();
+//       fileUploadService.uploadImage(images);
 
-       fileUploadService.uploadImage(images);
-
-       board.setMember(member);
-
+//       board.setMember(member);
+        board.setMember(boardRequestDto.getMember());
         board.setContent(boardRequestDto.getContent());
         board.setCreateDate(boardRequestDto.getCreateDate());
         board.setStatus(boardRequestDto.getStatus());
         board.setPrivacy(boardRequestDto.isPrivacy());
+
+        board.setLowestTemperature(boardRequestDto.getLowestTemperature());
+        board.setPresentTemperature(boardRequestDto.getPresentTemperature());
+        board.setHighestTemperature(boardRequestDto.getHighestTemperature());
+
         board.setImages(fileUploadService.uploadImage(images));
 
-    
         boardService.create(board);
 
+        /*
+        List -> Json
+         */
+//        List<Image> listImages = board.getImages();
+//        String jsonImages = new Gson().toJson(listImages);
+//        System.out.println(jsonImages);
         return board;
 
     }
 
-    //글 조회
+    //글 전체 조회
     @GetMapping(value = "/boards")
-    public List<Board> list(Model model) {
+    public ResponseEntity list(Model model) {
         List<Board> boards = boardService.findBoards();
         model.addAttribute("boards", boards);
-        return boards;
-        //return "boards/boardsList";
+        return new ResponseEntity(boards, HttpStatus.OK);
+//        return boards;
+    }
+
+    //글 하나 조회
+    @GetMapping(value = "/board/{boardId}")
+    public ResponseEntity selectBoard(@PathVariable("boardId") Long boardId){
+        Board board = boardService.findOne(boardId);
+
+        /*
+        List -> Json
+         */
+
+        List<Image> listImages = board.getImages();
+        String jsonImages = new Gson().toJson(listImages);
+        System.out.println(jsonImages);
+
+        return new ResponseEntity(board, HttpStatus.OK);
     }
 
     //글 수정 폼

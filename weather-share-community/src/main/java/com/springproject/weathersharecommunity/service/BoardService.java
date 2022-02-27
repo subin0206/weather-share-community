@@ -33,12 +33,13 @@ public class BoardService {
         board.setPrivacy(dto.isPrivacy());
     }
 
-    //전체 회원 조회
+    //전체 글 조회
     public List<Board> findBoards(){
+
         return boardRepository.findAll();
     }
 
-    //특정 회원 조회
+    //특정 글 조회
     public Board findOne(Long boardId){
         return boardRepository.findOne(boardId);
     }
