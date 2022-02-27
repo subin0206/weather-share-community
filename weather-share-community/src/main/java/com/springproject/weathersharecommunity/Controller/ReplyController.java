@@ -2,8 +2,13 @@ package com.springproject.weathersharecommunity.Controller;
 
 import com.springproject.weathersharecommunity.Controller.dto.ReplySaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.http.DefaultRes;
+import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.service.ReplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,16 +22,19 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    @PostMapping("/board/{boardId}/reply")
-    public Long replyWrite(@RequestBody ReplySaveRequestDto requestDto, @PathVariable Long boardId) {
+    @PostMapping(value = "/board/{boardId}/reply",consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public  void replyWrite(@RequestBody ReplySaveRequestDto requestDto, @PathVariable Long boardId) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
         requestDto.setMember(member);
-        return replyService.replyWrite(requestDto, boardId);
+        replyService.replyWrite(requestDto,boardId);
+
+//        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글달기",null), HttpStatus.OK);
     }
 
     @PostMapping("/board/reply/{replyId}")
-    public void replyDelete(@PathVariable Long replyId) {
+    public ResponseEntity replyDelete(@PathVariable Long replyId) {
         replyService.replyDelete(replyId);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글삭제", replyService.replyDelete(replyId)), HttpStatus.OK);
     }
 }

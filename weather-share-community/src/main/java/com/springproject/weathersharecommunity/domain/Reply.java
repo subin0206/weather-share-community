@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -27,6 +28,7 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "boardId")
     @JsonManagedReference
+    @JsonIgnore
     private Board board;
 
     @ManyToOne

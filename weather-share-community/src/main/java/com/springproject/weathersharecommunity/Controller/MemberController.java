@@ -80,11 +80,11 @@ public class MemberController {
     }
 
     @GetMapping("user/mypage")
-    public MemberResponseDto myPage() {
+    public ResponseEntity myPage() {
 
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
-        return memberService.myPage(member.getId());
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "마이페이지", memberService.myPage(member.getId())),HttpStatus.OK);
     }
     @GetMapping("confirm-email")
     public String viewConfirmEmail(@Valid @RequestParam String token) {
