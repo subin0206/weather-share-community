@@ -1,6 +1,7 @@
 package com.springproject.weathersharecommunity.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 public class Report {
     @Id
     @GeneratedValue
@@ -22,10 +24,14 @@ public class Report {
 
     private Long typeId; //신고당한 글/댓글/DM 번호
 
-    private Long reportUserId; //신고한 유저 번호
+//    @OneToMany
+//    @JoinColumn(name = "user_id")
+//    private Member reportUserId; //신고한 유저 번호
+
+    private Long reportUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Member member; //신고 당한 유저
+    private Member reportedUserId; //신고 당한 유저
 
 }

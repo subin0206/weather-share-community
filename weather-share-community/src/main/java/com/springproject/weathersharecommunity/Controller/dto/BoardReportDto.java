@@ -13,7 +13,7 @@ public class BoardReportDto {
 
     private String type;
 
-    private Member member; //신고당한 유저
+    private Member reportedUserId; //신고당한 유저
 
     private Long typeId;
 
