@@ -23,13 +23,13 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping(value = "/board/{boardId}/reply",consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public  void replyWrite(@RequestBody ReplySaveRequestDto requestDto, @PathVariable Long boardId) {
+    public ResponseEntity replyWrite(@RequestBody ReplySaveRequestDto requestDto, @PathVariable Long boardId) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
         requestDto.setMember(member);
-        replyService.replyWrite(requestDto,boardId);
+        replyService.replyWrite(requestDto, boardId);
 
-//        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글달기",null), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글달기",null), HttpStatus.OK);
     }
 
     @PostMapping("/board/reply/{replyId}")

@@ -1,9 +1,7 @@
 package com.springproject.weathersharecommunity.Controller.dto;
 
 import com.springproject.weathersharecommunity.domain.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,8 +17,8 @@ public class LikesListResponseDto {
 
     public LikesListResponseDto(Likes entity) {
         this.id = entity.getId();
-        this.image = entity.getBoard().getImages();
         this.memberName = entity.getMember().getUsername();
+        this.image = entity.getBoard().getImages();
         this.boardId = entity.getBoard().getId();
     }
 }

@@ -6,8 +6,11 @@ import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.http.DefaultRes;
+import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.event.internal.DefaultResolveNaturalIdEventListener;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -41,17 +44,17 @@ public class BoardController {
 
     //글 등록
     @PostMapping("/boards/new")
-    public Board create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
+    public ResponseEntity create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
 
         Board board = new Board();
 
-//       Authentication user = SecurityContextHolder.getContext().getAuthentication();
-//       Member member = (Member) user.getPrincipal();
+       Authentication user = SecurityContextHolder.getContext().getAuthentication();
+       Member member = (Member) user.getPrincipal();
 
 //       fileUploadService.uploadImage(images);
 
-//       board.setMember(member);
-        board.setMember(boardRequestDto.getMember());
+        board.setMember(member);
+//        board.setMember(boardRequestDto.getMember());
         board.setContent(boardRequestDto.getContent());
         board.setCreateDate(boardRequestDto.getCreateDate());
         board.setStatus(boardRequestDto.getStatus());
@@ -61,9 +64,9 @@ public class BoardController {
         board.setPresentTemperature(boardRequestDto.getPresentTemperature());
         board.setHighestTemperature(boardRequestDto.getHighestTemperature());
 
-        board.setImages(fileUploadService.uploadImage(images));
+//        board.setImages(fileUploadService.uploadImage(images));
 
-        boardService.create(board);
+        boardService.create(board, images);
 
         /*
         List -> Json
@@ -71,7 +74,8 @@ public class BoardController {
 //        List<Image> listImages = board.getImages();
 //        String jsonImages = new Gson().toJson(listImages);
 //        System.out.println(jsonImages);
-        return board;
+//        return board;
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "성공"), HttpStatus.OK);
 
     }
 
