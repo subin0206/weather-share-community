@@ -54,12 +54,22 @@ public class LikesService {
     public List<LikesListResponseDto> likesList() {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
+
         List<LikesListResponseDto> list = likesRepository.findAllByMemberId(member.getId())
                 .stream().map(LikesListResponseDto::new)
                 .collect(Collectors.toList());
         return list;
     }
 
-
+//    @Transactional(readOnly = true)
+//    public List<Likes> likesList() {
+//        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+//        Member member = (Member) user.getPrincipal();
+////        List<LikesListResponseDto> list = likesRepository.findAllByMemberId(member.getId())
+////                .stream().map(LikesListResponseDto::new)
+////                .collect(Collectors.toList());
+//        List<Likes> list = likesRepository.findAllByMemberId(member.getId());
+//        return list;
+//    }
 
 }

@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class S3FileUploadService {
     ImageRepository imageRepository;
 
     //Multipart를 통해 전송된 파일을 업로드 하는 메소드
-    public List<Image> uploadImage(List<MultipartFile> files){
+    public List<Image> uploadImage(List<MultipartFile> files, Board board){
         //반환값
         List<Image> imageList = new ArrayList<>();
 
@@ -49,6 +50,7 @@ public class S3FileUploadService {
             }
 
             Image image = new Image(fileName, s3Service.getFileUrl(fileName), multipartFile.getSize());
+            image.setBoard(board);
             imageRepository.save(image);
             imageList.add(image);
         }

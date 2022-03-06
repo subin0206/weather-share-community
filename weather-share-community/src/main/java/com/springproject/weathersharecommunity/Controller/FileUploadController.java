@@ -15,14 +15,14 @@ import java.util.List;
 public class FileUploadController {
     private final S3FileUploadService fileUploadService;
 
-    @PostMapping("/imageTest")
-
-    public List<Image> uploadImage(@RequestPart List<MultipartFile> file){
-
-        return fileUploadService.uploadImage(file);
-
-//     public String uploadImage(@RequestPart MultipartFile file ){
-//         return fileUploadService.uploadImage(file, "");
-
-     }
+//    @PostMapping("/imageTest")
+//
+//    public List<Image> uploadImage(@RequestPart List<MultipartFile> file){
+//
+//        return fileUploadService.uploadImage(file);
+//
+////     public String uploadImage(@RequestPart MultipartFile file ){
+////         return fileUploadService.uploadImage(file, "");
+//
+//     }
 }

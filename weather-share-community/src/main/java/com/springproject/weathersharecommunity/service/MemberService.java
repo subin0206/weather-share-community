@@ -9,6 +9,7 @@ import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,21 @@ public class MemberService {
     private final ConfirmTokenService confirmTokenService;
     private final S3FileUploadService s3FileUploadService;
     @Transactional
-    public Long save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
-//        duplicationMember(requestDto);
+    public void save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
+        duplicationMember(requestDto);
         requestDto.setPwd(passwordEncoder.encode(requestDto.getPwd()));
-        requestDto.setProfileUrl(s3FileUploadService.uploadImage(multipartFile, "user"));
+        try {
+            if (multipartFile.isEmpty()) {
+                requestDto.setProfileUrl("");
+            } else {
+                requestDto.setProfileUrl(s3FileUploadService.uploadImage(multipartFile, "user"));
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            requestDto.setProfileUrl("");
+        }
         Member member = memberRepository.save(requestDto.toEntity());
         confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
-
-        return member.getId();
     }
     @Transactional
     public void confirmEmail(String token) {
@@ -70,10 +78,14 @@ public class MemberService {
                 .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
         return member;
     }
-//    public void duplicationMember(MemberSaveRequestDto requestDto){
-//        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());
-//        if (checkMember.isPresent()) {
-//            throw new IllegalStateException("이미 존재하는 회원입니다.");
-//        }
-//    }
+    @Transactional
+    public void duplicationMember(MemberSaveRequestDto requestDto){
+        boolean result = true;
+        Optional<Member> checkEmail = memberRepository.findByUserEmail(requestDto.getUserEmail());
+        Optional<Member> checkMember = memberRepository.findByUserName(requestDto.getUserName());
+        if (checkMember.isPresent() || checkEmail.isPresent()) {
+            result = false;
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
 }
