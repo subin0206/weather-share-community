@@ -1,12 +1,15 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity @Getter
+@NoArgsConstructor
 public class Image {
     @Id @GeneratedValue
     @Column(name = "image_id")
@@ -14,6 +17,7 @@ public class Image {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
+    @JsonIgnore
     private Board board;
 
     private String originFileName; // 파일 원본명

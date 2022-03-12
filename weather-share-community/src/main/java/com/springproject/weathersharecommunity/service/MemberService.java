@@ -33,7 +33,7 @@ public class MemberService {
         requestDto.setPwd(passwordEncoder.encode(requestDto.getPwd()));
         requestDto.setProfileUrl(s3FileUploadService.uploadImage(multipartFile, "user"));
         Member member = memberRepository.save(requestDto.toEntity());
-        confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
+//        confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
 
         return member.getId();
     }
