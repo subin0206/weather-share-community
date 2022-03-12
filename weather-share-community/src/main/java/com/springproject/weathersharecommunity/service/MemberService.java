@@ -4,19 +4,16 @@ import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.ConfirmToken;
 import com.springproject.weathersharecommunity.domain.Member;
-import com.springproject.weathersharecommunity.http.ResponseMessage;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -68,6 +65,12 @@ public class MemberService {
     public Member findByUserName(MemberSaveRequestDto requestDto) {
         Member member = memberRepository.findByUserName(requestDto.getUserName())
                 .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+        return member;
+    }
+
+    public Member findOne(Long reportId) {
+        Member member = memberRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
         return member;
     }
 //    public void duplicationMember(MemberSaveRequestDto requestDto){

@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BoardReportDto {
 
-    private String type;
+    private String type; //게시물 or 댓글
 
-    private Member reportedUserId; //신고당한 유저
+    private Long reportedUserId; //신고당한 유저
 
-    private Long typeId;
+    private Long typeId; //신고당한 글 or 댓글 번호
 
-    private Long reportId;
+//    private Long reportId;
 
     private LocalDateTime createTime;
 

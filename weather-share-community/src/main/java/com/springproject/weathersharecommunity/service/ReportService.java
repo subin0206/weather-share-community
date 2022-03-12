@@ -56,6 +56,7 @@ public class ReportService {
 
     //댓글 신고
     public Report commentReport(Report report){
+
         return reportRepository.save(report);
     }
 
