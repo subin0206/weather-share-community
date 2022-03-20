@@ -47,7 +47,6 @@ public class BoardController {
     @PostMapping("/boards/new")
     public ResponseEntity<Board> create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
 
-
         Board board = new Board();
 
         Authentication user = SecurityContextHolder.getContext().getAuthentication();

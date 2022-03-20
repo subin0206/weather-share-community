@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class boardGetDto {
+public class BoardGetDto {
 
     private Board board;
 

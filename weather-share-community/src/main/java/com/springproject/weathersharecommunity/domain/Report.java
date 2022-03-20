@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -12,13 +13,13 @@ import java.time.LocalDateTime;
 @Setter
 public class Report {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
     private Long id;
 
     @CreatedDate
     @Column(name="report_date_time")
-    private LocalDateTime createDate;
+    private LocalDateTime createDate = LocalDateTime.now();
 
     private String type; //[board, comment, dm]
 

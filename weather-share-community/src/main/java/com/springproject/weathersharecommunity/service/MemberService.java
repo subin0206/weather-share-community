@@ -73,6 +73,7 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
         return member;
     }
+
 //    public void duplicationMember(MemberSaveRequestDto requestDto){
 //        Optional<Member> checkMember = memberRepository.findByEmail(requestDto.getEmail());
 //        if (checkMember.isPresent()) {
