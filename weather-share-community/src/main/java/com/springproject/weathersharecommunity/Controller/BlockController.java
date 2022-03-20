@@ -4,13 +4,11 @@ import com.springproject.weathersharecommunity.Controller.dto.BlockDto;
 import com.springproject.weathersharecommunity.domain.Block;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.service.BlockService;
+import com.springproject.weathersharecommunity.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,16 +18,17 @@ import java.util.Optional;
 public class BlockController {
 
     private final BlockService blockService;
+    private final MemberService memberService;
 
     @PostMapping("/block/create")
-    public Block block(BlockDto blockDto){
+    public Block block(@RequestBody BlockDto blockDto){
         Block block = new Block();
 
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
 
         block.setMember(member);
-        block.setBlockedMember(blockDto.getBlockedMember());
+        block.setBlockedMember(memberService.findOne(blockDto.getBlockedMemberId()));
 
         blockService.block(block);
 
@@ -44,13 +43,14 @@ public class BlockController {
     }
 
     //차단 풀기
-    @DeleteMapping("/block/delete")
-    public void deleteBlock(BlockDto blockDto){
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) user.getPrincipal();
-
-        Optional<Block> block = blockService.findById(blockDto.getBlockId());
-    }
+//    @DeleteMapping("/block/delete")
+//    public void deleteBlock(BlockDto blockDto){
+//        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+//        Member member = (Member) user.getPrincipal();
+//
+//        Optional<Block> block = blockService.findById(blockDto.getBlockedMemberId());
+//        blockService.delete(block);
+//    }
 
 
 }

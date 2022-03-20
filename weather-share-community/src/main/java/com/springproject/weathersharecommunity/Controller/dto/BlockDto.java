@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 public class BlockDto {
-    private long blockId;
-    private Member blockedMember;
+//    private long blockId;
+    private long blockedMemberId;
 }

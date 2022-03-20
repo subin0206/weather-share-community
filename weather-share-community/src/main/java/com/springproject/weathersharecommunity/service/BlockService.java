@@ -22,9 +22,9 @@ public class BlockService {
     }
 
     /*차단 풀기*/
-    public void delete(Block block){
-        blockRepository.delete(block);
-    }
+//    public void delete(Optional<Block> block){
+//        blockRepository.delete(block);
+//    }
 
 
     public List<Block> findByMember(Member member) {
@@ -32,6 +32,7 @@ public class BlockService {
     }
 
     public Optional<Block> findById(long blockId) {
+
         return blockRepository.findById(blockId);
     }
 }
