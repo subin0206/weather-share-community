@@ -22,12 +22,13 @@ public class ReplyService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void replyWrite(ReplySaveRequestDto requestDto, Long boardId) {
+    public Long replyWrite(ReplySaveRequestDto requestDto, Long boardId) {
 //        Member findMember = memberRepository.findById(requestDto.getMember().getId())
 //                .orElseThrow(()-> new IllegalArgumentException("회원을 찾지 못했습니다."));
         Board board = boardRepository.findOne(boardId);
         requestDto.setBoard(board);
         Reply reply = replyRepository.save(requestDto.toEntity());
+        return reply.getId();
     }
 
     public String replyDelete(Long replyId) {
