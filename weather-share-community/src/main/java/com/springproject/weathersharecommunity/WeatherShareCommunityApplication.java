@@ -17,7 +17,7 @@ public class WeatherShareCommunityApplication {
 	//application.yml 과 aws.yml 모두를 설정 파일로 읽어서 사용
 	public static final String APPLICATION_LOCATIONS =
 			"spring.config.location=" + "classpath:application.yml,"
-			+ "classpath:aws.yml";
+			+ "classpath:aws.yml," + "classpath:db.yml";
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(WeatherShareCommunityApplication.class)

@@ -93,13 +93,7 @@ public class BoardController {
     public ResponseEntity selectBoard(@PathVariable("boardId") Long boardId){
         Board board = boardService.findOne(boardId);
 
-        /*
-        List -> Json
-         */
 
-        List<Image> listImages = board.getImages();
-        String jsonImages = new Gson().toJson(listImages);
-        System.out.println(jsonImages);
 
         return new ResponseEntity(board, HttpStatus.OK);
     }

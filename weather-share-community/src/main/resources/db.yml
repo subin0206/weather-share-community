@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/weather?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    #    username: weathermaster
+    #    password: weather2022
+    username: root
+    password: 20172025
+  session:
+    store-type: jdbc
+  jpa:
+    properties:
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl-auto: create
+    show_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: weather.share.auth@gmail.com
+    password: sungshinteam@
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+            auth: true
+            connectiontimeout: 5000
+            timeout: 5000
+            writetimeout: 5000
