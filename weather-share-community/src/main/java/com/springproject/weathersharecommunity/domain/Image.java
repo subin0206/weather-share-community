@@ -1,6 +1,8 @@
 package com.springproject.weathersharecommunity.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +10,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity @Getter
 @NoArgsConstructor
 public class Image {
-    @Id @GeneratedValue
+    @Id @GeneratedValue()
     @Column(name = "image_id")
     private Long id;
 

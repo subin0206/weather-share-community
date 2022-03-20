@@ -39,10 +39,11 @@ public class MemberController {
 
     @PostMapping("user/join")
     @ResponseBody
-    public Long join(@Validated @RequestPart(value = "requestDto",required = false) MemberSaveRequestDto requestDto, @RequestPart(value = "profile", required = false) final MultipartFile multipartFile) throws IOException {
+    public ResponseEntity join(@Validated @RequestPart(value = "requestDto",required = false) MemberSaveRequestDto requestDto, @RequestPart(value = "profile", required = false) final MultipartFile multipartFile) throws IOException {
 
         System.out.println("bbbbbbbb" + requestDto.getPwd());
-        return memberService.save(requestDto, multipartFile);
+        memberService.save(requestDto, multipartFile);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.NOT_FOUND, "회원가입 성공"), HttpStatus.OK);
     }
 
     @PostMapping("user/login")

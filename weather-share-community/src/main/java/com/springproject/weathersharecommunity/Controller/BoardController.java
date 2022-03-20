@@ -11,6 +11,7 @@ import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.event.internal.DefaultResolveNaturalIdEventListener;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -45,6 +46,7 @@ public class BoardController {
 
     //글 등록
     @PostMapping("/boards/new")
+
     public ResponseEntity<Board> create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
 
         Board board = new Board();
@@ -67,12 +69,22 @@ public class BoardController {
         List<Image> imageList = fileUploadService.uploadImage(images);
         board.setImages(imageList);
 //        board.setImages(fileUploadService.uploadImage(images));
-        boardService.create(board);
+//        boardService.create(board);
 
-        for(Image image: imageList){
-            image.setBoard(board);
-        }
+//         for(Image image: imageList){
+//             image.setBoard(board);
+//         }
+//        board.setImages(fileUploadService.uploadImage(images));
 
+        boardService.create(board, images);
+
+        /*
+        List -> Json
+         */
+//        List<Image> listImages = board.getImages();
+//        String jsonImages = new Gson().toJson(listImages);
+//        System.out.println(jsonImages);
+//        return board;
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "성공"), HttpStatus.OK);
 
     }
