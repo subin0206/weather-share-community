@@ -37,16 +37,16 @@ public class ReportService {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
 
-        List<Report> entity = reportRepository.findByTypeId(boardId);
-        Long currentUserId = member.getId();
+        List<Report> entity = reportRepository.findByTypeId(boardId); //신고된 게시물
+        Long currentUserId = member.getId(); //신고자, 현재 로그인된 유저
 
-        if(entity == null)
+        if(entity == null) //신고된 게시물이 없다면
             return true;
 
         for(int i = 0; i < entity.size(); i++){
             for(Report report : entity){
                 Long reportId = entity.get(i).getReportUserId();
-                if(currentUserId == reportId){
+                if(currentUserId == reportId){ //이미 신고가 들어왔다면
                     return false;
                 }
             }
@@ -56,6 +56,7 @@ public class ReportService {
 
     //댓글 신고
     public Report commentReport(Report report){
+
         return reportRepository.save(report);
     }
 
