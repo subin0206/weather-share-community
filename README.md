@@ -45,17 +45,5 @@ weather-share-community
     "data": "token값"
 }
 ```   
-|||
-|------|---|
-|method|POST|
-|url|/user/login|
-|Header|X-AUTH-TOKEN|
-|Body|{"userName" : "bbbb","pwd" : "bbbb"}|   
 
-```
-{
-    "statusCode": 200,
-    "responseMessage": "로그인 성공",
-    "data": "token값"
-}
-```
+
