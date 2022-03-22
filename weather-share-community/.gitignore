@@ -37,4 +37,5 @@ out/
 .vscode/
 ##yml##
 src/main/resources/real-aws.yml
+src/main/resources/aws.yml
 src/main/resources/db.yml
