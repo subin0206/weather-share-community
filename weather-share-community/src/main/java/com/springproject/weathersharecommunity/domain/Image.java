@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity @Getter
-@NoArgsConstructor
 public class Image {
     @Id @GeneratedValue()
     @Column(name = "image_id")
