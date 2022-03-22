@@ -17,12 +17,14 @@ weather-share-community
 
 ## API
 ### User
+#### 회원가입
 |||
 |------|---|
-|method|POST|
+|method|Post|
 |url|/user/join|
 |file|1개, name= "profile", null 가능|
 |Body|{"userName" : "bbbb", "userEmail":"bbbb@bbbb.com", "pwd" : "bbbb"}|   
+|참고|서버에서 보낸 메일에 있는 링크를 클릭해야 회원활동 가능, 유효한 메일로 가입해 테스트
 
 ```
 {
@@ -31,9 +33,10 @@ weather-share-community
     "data": null
 }
 ```   
+#### 로그인
 |||
 |------|---|
-|method|POST|
+|method|Post|
 |url|/user/login|
 |Header|X-AUTH-TOKEN|
 |Body|{"userName" : "bbbb","pwd" : "bbbb"}|   
@@ -45,5 +48,38 @@ weather-share-community
     "data": "token값"
 }
 ```   
+#### 마이페이지
+|||
+|------|---|
+|method|Get|
+|url|/user/mypage|
+|Header|X-AUTH-TOKEN|   
+
+```
+{
+    "statusCode": 200,
+    "responseMessage": "마이페이지",
+    "data": {
+        "id": 10,
+        "userName": "eeee",
+        "userEmail": "eeee@eeee.com",
+        "profileUrl": "이미지 url"
+    }
+}
+```  
+#### 마이페이지 수정
+|||
+|------|---|
+|method|Post|
+|url|/user/mypage/edit/profile|
+|Header|X-AUTH-TOKEN|   
+
+```
+{
+    "statusCode": 200,
+    "responseMessage": "마이페이지 수정 성공",
+    "data": null
+}
+```  
 
 
