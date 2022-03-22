@@ -66,8 +66,6 @@ public class BoardController {
         board.setPresentTemperature(boardRequestDto.getPresentTemperature());
         board.setHighestTemperature(boardRequestDto.getHighestTemperature());
 
-        List<Image> imageList = fileUploadService.uploadImage(images);
-        board.setImages(imageList);
 //        board.setImages(fileUploadService.uploadImage(images));
 //        boardService.create(board);
 
