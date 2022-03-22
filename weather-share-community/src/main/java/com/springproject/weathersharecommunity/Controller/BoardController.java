@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.Controller;
 
+import com.amazonaws.Response;
 import com.google.gson.Gson;
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,17 +46,17 @@ public class BoardController {
 
     //글 등록
     @PostMapping("/boards/new")
-    public ResponseEntity create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
+
+    public ResponseEntity<Board> create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
 
         Board board = new Board();
 
-       Authentication user = SecurityContextHolder.getContext().getAuthentication();
-       Member member = (Member) user.getPrincipal();
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
 
 //       fileUploadService.uploadImage(images);
 
         board.setMember(member);
-//        board.setMember(boardRequestDto.getMember());
         board.setContent(boardRequestDto.getContent());
         board.setCreateDate(boardRequestDto.getCreateDate());
         board.setStatus(boardRequestDto.getStatus());
@@ -64,6 +66,12 @@ public class BoardController {
         board.setPresentTemperature(boardRequestDto.getPresentTemperature());
         board.setHighestTemperature(boardRequestDto.getHighestTemperature());
 
+//        board.setImages(fileUploadService.uploadImage(images));
+//        boardService.create(board);
+
+//         for(Image image: imageList){
+//             image.setBoard(board);
+//         }
 //        board.setImages(fileUploadService.uploadImage(images));
 
         boardService.create(board, images);
@@ -92,8 +100,6 @@ public class BoardController {
     @GetMapping(value = "/board/{boardId}")
     public ResponseEntity selectBoard(@PathVariable("boardId") Long boardId){
         Board board = boardService.findOne(boardId);
-
-
 
         return new ResponseEntity(board, HttpStatus.OK);
     }

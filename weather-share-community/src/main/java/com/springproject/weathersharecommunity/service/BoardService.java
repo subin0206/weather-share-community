@@ -47,12 +47,14 @@ public class BoardService {
 
     //특정 글 조회
     public Board findOne(Long boardId){
+
         return boardRepository.findOne(boardId);
     }
 
     //특정 글 삭제
     @Transactional
     public void delete(Board board){
+
         boardRepository.deleteOne(board);
     }
     

@@ -5,6 +5,7 @@ import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+//    @JsonIgnore
     private Member member;
 
     private boolean privacy;

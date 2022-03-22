@@ -29,9 +29,13 @@ public class BoardRepository {
         }
     }
 
-    @EntityGraph(attributePaths = "member")
+
     public Board findOne(Long id){
-        return em.find(Board.class, id);
+
+//        return em.find(Board.class, id);
+        return em.createQuery("select b from Board b join fetch b.member m where b.id = :id", Board.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
 //    @EntityGraph(attributePaths = "member")

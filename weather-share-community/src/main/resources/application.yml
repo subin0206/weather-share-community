@@ -1,0 +1,19 @@
+#server:
+#  port: 8070
+spring:
+  session:
+    store-type: jdbc
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl-auto: create
+    show_sql: true
+logging:
+  level:
+    org.springframework.web : DEBUG
+jwt:
+  secret: jwtsecret
