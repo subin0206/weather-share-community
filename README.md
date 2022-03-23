@@ -81,5 +81,49 @@ weather-share-community
     "data": null
 }
 ```  
+### Board   
+#### 글쓰기 
+|||
+|------|---|
+|method|Post|
+|url|/boards/new|
+|Header|X-AUTH-TOKEN|  
+|Body|{ "content": "test", "privacy": true, "status" : "HOT","presentTemperature":"17","highestTemperature":"19","lowestTemperature":"10"}|
+|file|null 불가능, 3개까지|
+|참고|status는 HOT, WARM, BEST, COLD, COOL 중 하나로 보내야함|
 
+```
+{
+    "statusCode": 200,
+    "responseMessage": "성공",
+    "data": null
+}
+```  
+#### 글 상세보기
+|||
+|------|---|
+|method|Get|
+|url|/board/{boardId}|
 
+```
+{
+    "id": 36,
+    "content": "test",
+    "member": {
+        "id": 12,
+        "userEmail": "eeee@eeee.com",
+        "profileUrl": "이미지 url",
+        "replies": null,
+        "username": "eeee",
+    },
+    "privacy": true,
+    "createDate": "2022-03-23T18:27:11",
+    "status": "HOT",
+    "images": [url 리스트],
+    "clothes": null,
+    "likesCount": 0,
+    "presentTemperature": "17",
+    "highestTemperature": "19",
+    "lowestTemperature": "10"
+}
+```
