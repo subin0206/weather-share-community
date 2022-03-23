@@ -81,6 +81,34 @@ weather-share-community
     "data": null
 }
 ```  
+#### 내가 좋아요 한 글들
+|||
+|------|---|
+|method|Get|
+|url|/user/likes|
+|Header|X-AUTH-TOKEN|    
+```
+{
+    "statusCode": 200,
+    "responseMessage": "좋아요 리스트",
+    "data": [
+        {
+            "id": 8,
+            "image": [
+                {
+                    "id": 25,
+                    "originFileName": "",
+                    "url": "",
+                    "fileSize": 613722
+                }
+            ],
+            "memberName": "a",
+            "boardId": 24
+        }
+    ]
+}
+```
+
 ### Board   
 #### 글쓰기 
 |||
@@ -126,4 +154,21 @@ weather-share-community
     "highestTemperature": "19",
     "lowestTemperature": "10"
 }
+```   
+#### 좋아요
+|||
+|------|---|
+|method|Post|
+|url|/board/{boardId}/likes|
+|Header|X-AUTH-TOKEN|
+|참고|이미 있는 boardId인 경우 좋아요 취소로 변경|   
 ```
+{
+    "statusCode": 200,
+    "responseMessage": "성공",
+    "data": null
+}
+```
+
+
+
