@@ -142,7 +142,6 @@ weather-share-community
         "id": 12,
         "userEmail": "eeee@eeee.com",
         "profileUrl": "이미지 url",
-        "replies": null,
         "username": "eeee",
     },
     "privacy": true,
