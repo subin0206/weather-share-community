@@ -93,17 +93,18 @@ weather-share-community
     "responseMessage": "좋아요 리스트",
     "data": [
         {
-            "id": 8,
-            "image": [
-                {
-                    "id": 25,
-                    "originFileName": "",
-                    "url": "",
-                    "fileSize": 613722
-                }
-            ],
-            "memberName": "a",
-            "boardId": 24
+            "id": 9,
+            "image": null,
+            "img": "가장 맨 처음 이미지 url",
+            "memberName": "eeee",
+            "boardId": 36
+        },
+        {
+            "id": 10,
+            "image": null,
+            "img": "가장 맨 처음 이미지 url",
+            "memberName": "eeee",
+            "boardId": 34
         }
     ]
 }
@@ -165,7 +166,7 @@ weather-share-community
 ```
 {
     "statusCode": 200,
-    "responseMessage": "성공",
+    "responseMessage": "좋아요 성공" or "좋아요 취소"
     "data": null
 }
 ```
