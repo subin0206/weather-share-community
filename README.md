@@ -197,7 +197,7 @@ weather-share-community
     "data": null
 }
 ```   
-#### 삭제
+#### 댓글 삭제
 |||
 |------|---|
 |method|Post|
