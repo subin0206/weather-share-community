@@ -94,14 +94,12 @@ weather-share-community
     "data": [
         {
             "id": 9,
-            "image": null,
             "img": "가장 맨 처음 이미지 url",
-            "memberName": "eeee",
+            "memberName": "a",
             "boardId": 36
         },
         {
             "id": 10,
-            "image": null,
             "img": "가장 맨 처음 이미지 url",
             "memberName": "eeee",
             "boardId": 34
@@ -109,7 +107,32 @@ weather-share-community
     ]
 }
 ```
-
+#### 스크랩 목록
+|||
+|------|---|
+|method|Get|
+|url|/user/scrape/list|
+|Header|X-AUTH-TOKEN|    
+```
+{
+    "statusCode": 200,
+    "responseMessage": "스크랩 리스트",
+    "data": [
+        {
+            "id": 2,
+            "img": "가장 맨 처음 이미지 url",
+            "memberName": "eeee",
+            "boardId": 25
+        },
+        {
+            "id": 10,
+            "img": "가장 맨 처음 이미지 url",
+            "memberName": "eeee",
+            "boardId": 26
+        }
+    ]
+}
+```   
 ### Board   
 #### 글쓰기 
 |||
