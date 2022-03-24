@@ -161,14 +161,53 @@ weather-share-community
 |method|Post|
 |url|/board/{boardId}/likes|
 |Header|X-AUTH-TOKEN|
-|참고|이미 있는 boardId인 경우 좋아요 취소로 변경|   
+|참고|이미 있는 boardId인 경우 좋아요 취소로 동작|   
 ```
 {
     "statusCode": 200,
     "responseMessage": "좋아요 성공" or "좋아요 취소"
     "data": null
 }
+```   
+#### 스크랩
+|||
+|------|---|
+|method|Post|
+|url|/board/{boardId}/scrape|
+|Header|X-AUTH-TOKEN|
+|참고|이미 있는 boardId인 경우 스크랩 취소로 동작|   
 ```
-
-
+{
+    "statusCode": 200,
+    "responseMessage": "스크랩 성공" or "스크랩 취소"
+    "data": null
+}
+```   
+#### 댓글
+|||
+|------|---|
+|method|Post|
+|url|/board/{boardId}/reply|
+|Header|X-AUTH-TOKEN|
+|Body|{"content" : "hi"}|   
+```
+{
+    "statusCode": 200,
+    "responseMessage": "댓글달기"
+    "data": null
+}
+```   
+#### 삭제
+|||
+|------|---|
+|method|Post|
+|url|/board/reply/{replyId}|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "댓글삭제"
+    "data": null
+}
+```
 
