@@ -96,6 +96,12 @@ public class BoardController {
 //        return boards;
     }
 
+    @GetMapping(value = "/boards/popular")
+    public ResponseEntity PopularList() {
+        List<Board> boards = boardService.findBoards();
+        return new ResponseEntity(boards, HttpStatus.OK);
+//        return boards;
+    }
     //글 하나 조회
     @GetMapping(value = "/board/{boardId}")
     public ResponseEntity selectBoard(@PathVariable("boardId") Long boardId){

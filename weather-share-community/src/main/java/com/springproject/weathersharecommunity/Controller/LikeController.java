@@ -26,11 +26,11 @@ public class LikeController {
     private final LikesService likesService;
 
     @PostMapping("/board/{boardId}/likes")
-    public void likes(LikeSaveRequestDto requestDto) {
+    public ResponseEntity likes(LikeSaveRequestDto requestDto) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
         requestDto.setUserId(member.getId());
-        likesService.likes(requestDto);
+        return likesService.likes(requestDto);
     }
 
     @GetMapping("/user/likes")

@@ -45,6 +45,9 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    public List<Board> sortLikes(){
+        return boardRepository.sortLikes();
+    }
     //특정 글 조회
     public Board findOne(Long boardId){
 

@@ -12,13 +12,13 @@ import java.util.List;
 public class LikesListResponseDto {
     private int id;
     private List<Image> image;
+    private String img;
     private String memberName;
     private Long boardId;
-
     public LikesListResponseDto(Likes entity) {
         this.id = entity.getId();
-        this.memberName = entity.getMember().getUsername();
-        this.image = entity.getBoard().getImages();
+        this.memberName = entity.getBoard().getMember().getUsername();
+        this.img = entity.getBoard().getImages().get(0).getUrl();
         this.boardId = entity.getBoard().getId();
     }
 }

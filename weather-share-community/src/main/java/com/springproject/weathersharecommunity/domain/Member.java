@@ -54,6 +54,7 @@ public class Member implements UserDetails {
     private String profileUrl;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     private List<Reply> replies;
     @Builder
     public Member(String userName, String userEmail, String pwd, String profileUrl,List<String> roles, Boolean emailAuth) {

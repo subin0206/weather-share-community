@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -43,7 +44,6 @@ public class MemberService {
 
        confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
 
-        return member.getId();
     }
     @Transactional
     public void confirmEmail(String token) {
