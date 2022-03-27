@@ -178,6 +178,20 @@ weather-share-community
     "lowestTemperature": "10"
 }
 ```   
+#### 글 삭제
+|||
+|------|---|
+|method|Delete|
+|url|/board/{boardId}/delete|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "성공"
+    "data": null
+}
+```    
+
 #### 좋아요
 |||
 |------|---|
@@ -234,3 +248,45 @@ weather-share-community
 }
 ```
 
+### 신고 & 차단  
+#### 게시물 신고
+|||
+|------|---|
+|method|Post|
+|url|/report/board|
+|Header|X-AUTH-TOKEN|
+|참고|10번 이상 신고되면 글 삭제|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "게시물 신고"
+    "data": null
+}
+```
+#### 댓글 신고
+|||
+|------|---|
+|method|Post|
+|url|/comment/board|
+|Header|X-AUTH-TOKEN|
+|참고|10번 이상 신고되면 댓글 삭제|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "댓글 신고"
+    "data": null
+}
+```   
+#### 차단
+|||
+|------|---|
+|method|Post|
+|url|/block/create|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "차단"
+    "data": null
+}
+```   
