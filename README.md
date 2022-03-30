@@ -290,3 +290,73 @@ weather-share-community
     "data": null
 }
 ```   
+
+### follow   
+#### 팔로우 하기   
+|||
+|------|---|
+|method|Post|
+|url|/follow/{toMemberId}|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로우 성공"
+    "data": null
+}
+```    
+#### 팔로우 취소 하기
+|||
+|------|---|
+|method|Delete|
+|url|/follow/{toMemberId}|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "언팔로우 성공"
+    "data": null
+}
+```   
+#### 해당 유저를 팔로우하는 사람들 리스트
+|||
+|------|---|
+|method|Get|
+|url|/follow/getFollower/{toMemberId}|
+|참고|로그인 여부 상관 없이 어떤 유저가 팔로우하는 리스트를 확인 할 수 있음, toMemberId는 팔로우 리스트를 확인하고 싶은 유저, 로그인 없이 확인 가능|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로우 리스트",
+    "data": [
+        {
+            "fromMemberId": 3,
+            "toMemberId": 4
+        },
+        {
+            "fromMemberId": 3,
+            "toMemberId": 5
+        }
+    ]
+}
+``` 
+
+#### 내가 팔로우 한 사람들 
+|||
+|------|---|
+|method|Delete|
+|url|/follow/getFollowing|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로잉 리스트",
+    "data": [
+
+        {
+            "fromMemberId": 5,
+            "toMemberId": 3
+        }
+    ]
+}
+```   
