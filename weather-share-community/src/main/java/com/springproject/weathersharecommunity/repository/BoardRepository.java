@@ -63,5 +63,13 @@ public class BoardRepository {
         em.remove(em.contains(board) ? board : em.merge(board));
     }
 
+    //글 검색
+    public List<Board> findAllSearch(String keyword) {
+        return em.createQuery("SELECT b FROM Board b.content LIKE %:content%", Board.class)
+                .getResultList();
+
+    }
+
+
 
 }

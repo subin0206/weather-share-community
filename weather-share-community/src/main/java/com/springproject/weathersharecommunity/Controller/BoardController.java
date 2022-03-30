@@ -8,6 +8,7 @@ import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
+import com.springproject.weathersharecommunity.service.BoardSearchService;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
 import lombok.Builder;
@@ -33,6 +34,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardSearchService boardSearchService;
 
     private final S3FileUploadService fileUploadService;
 
@@ -158,6 +160,16 @@ public class BoardController {
         boardService.delete(board);
         //return board;
         return "redirect:/boards";
+    }
+
+    //글 검색
+    @GetMapping(value = "/boards/{boardId}/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+
+
+        model.addAttribute("searchList", boardSearchService.searchPosts(keyword));
+
+        return "searchList";
     }
 
 }
