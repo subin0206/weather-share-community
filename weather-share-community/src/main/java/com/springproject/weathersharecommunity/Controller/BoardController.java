@@ -1,7 +1,5 @@
 package com.springproject.weathersharecommunity.Controller;
 
-import com.amazonaws.Response;
-import com.google.gson.Gson;
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
@@ -9,24 +7,25 @@ import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
+import com.springproject.weathersharecommunity.repository.BoardInfoMapping;
+import com.springproject.weathersharecommunity.repository.BoardRepositoryTest;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.event.internal.DefaultResolveNaturalIdEventListener;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +36,10 @@ public class BoardController {
     private final BoardService boardService;
 
     private final S3FileUploadService fileUploadService;
+
+    private final BoardInfoMapping boardInfoMapping;
+
+    private final BoardRepositoryTest boardRepositoryTest;
 
 //    @GetMapping("/boards/new")
 //    public String createForm(Model model) {
@@ -104,6 +107,13 @@ public class BoardController {
         Board board = boardService.findOne(boardId);
 
         return new ResponseEntity(board, HttpStatus.OK);
+    }
+
+
+    //글 하나 조회 테스트
+    @GetMapping(value = "/test/{boardId}")
+    public BoardInfoMapping boardInfo(@AuthenticationPrincipal @PathVariable("boardId") Long boardId){
+        return boardRepositoryTest.findByBoardId(boardId);
     }
 
     //글 수정 폼

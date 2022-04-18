@@ -2,6 +2,7 @@ package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
+import com.springproject.weathersharecommunity.repository.BoardInfoMapping;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
