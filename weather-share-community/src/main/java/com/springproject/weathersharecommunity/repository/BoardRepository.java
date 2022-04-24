@@ -46,12 +46,7 @@ public class BoardRepository {
                 .getResultList();
     }
     //    @EntityGraph(attributePaths = "member")
-    public List<Board> sortLikes(){
-//        return em.createQuery("select b from Board b", Board.class)
-//                .getResultList();
-        return em.createQuery("select b from Board b join fetch b.member order by b.like_count desc", Board.class)
-                .getResultList();
-    }
+
     public List<Board> findByUser(Long user){
         return em.createQuery("select b from Board b where b.user = :user", Board.class) //member 필드 가져올 수 있도록 쿼리 변경
                 .setParameter("user", user)
