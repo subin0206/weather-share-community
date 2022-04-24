@@ -7,7 +7,6 @@ import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
-import com.springproject.weathersharecommunity.repository.BoardInfoMapping;
 import com.springproject.weathersharecommunity.repository.BoardRepositoryTest;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
@@ -37,7 +36,6 @@ public class BoardController {
 
     private final S3FileUploadService fileUploadService;
 
-    private final BoardInfoMapping boardInfoMapping;
 
     private final BoardRepositoryTest boardRepositoryTest;
 
@@ -69,8 +67,6 @@ public class BoardController {
         board.setPresentTemperature(boardRequestDto.getPresentTemperature());
         board.setHighestTemperature(boardRequestDto.getHighestTemperature());
 
-        List<Image> imageList = fileUploadService.uploadImage(images);
-        board.setImages(imageList);
 //        board.setImages(fileUploadService.uploadImage(images));
 //        boardService.create(board);
 
@@ -112,8 +108,8 @@ public class BoardController {
 
     //글 하나 조회 테스트
     @GetMapping(value = "/test/{boardId}")
-    public BoardInfoMapping boardInfo(@AuthenticationPrincipal @PathVariable("boardId") Long boardId){
-        return boardRepositoryTest.findByBoardId(boardId);
+    public ResponseEntity boardInfo(@PathVariable("boardId") Long boardId){
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "글 성공", boardService.boardDetail(boardId)), HttpStatus.OK);
     }
 
     //글 수정 폼

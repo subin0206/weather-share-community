@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface BoardRepositoryTest extends JpaRepository<Board, Long> {
-    BoardInfoMapping findByBoardId(Long id);
+//    Optional<Board> findByBoardId(Long id);
+
 }

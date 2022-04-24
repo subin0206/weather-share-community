@@ -4,6 +4,7 @@ import com.springproject.weathersharecommunity.Controller.dto.BoardEditRequestDt
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.repository.BoardInfoMapping;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
+import com.springproject.weathersharecommunity.repository.BoardRepositoryTest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -23,6 +24,7 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
+    private final BoardRepositoryTest repositoryTest;
 
     //글 쓰기
     public long create(Board board, List<MultipartFile> images){
@@ -58,5 +60,10 @@ public class BoardService {
 
         boardRepository.deleteOne(board);
     }
-    
+
+    @Transactional
+    public Board boardDetail(Long boardId) {
+        Board board = repositoryTest.findById(boardId).orElseThrow(() -> new IllegalArgumentException("글을 찾을수 없습니다."));
+        return board;
+    }
 }
