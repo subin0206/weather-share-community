@@ -94,10 +94,10 @@ public class MemberController {
     }
 
     @PostMapping("user/mypage/edit/profile")
-    public String ProfileUpdate(@RequestPart(value = "profile", required = false) final MultipartFile multipartFile) {
+    public ResponseEntity ProfileUpdate(@RequestPart(value = "profile", required = false) final MultipartFile multipartFile) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
-        return memberService.ProfileImgUpdate(member.getId(),multipartFile);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "마이페이지 수정 완료", memberService.ProfileImgUpdate(member.getId(), multipartFile)),HttpStatus.OK);
     }
 
 

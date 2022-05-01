@@ -4,6 +4,7 @@ import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
+import com.springproject.weathersharecommunity.service.BoardSearchService;
 import com.springproject.weathersharecommunity.service.BoardService;
 import com.springproject.weathersharecommunity.service.S3FileUploadService;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,13 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardSearchService boardSearchService;
 
     private final S3FileUploadService fileUploadService;
 
 
     private final BoardRepository boardRepository;
-
-
-    //글 하나 조회 테스트
+  
     @GetMapping(value = "/board/{boardId}")
     public ResponseEntity boardInfo(@PathVariable("boardId") Long boardId){
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "글 성공", boardService.boardDetail(boardId)), HttpStatus.OK);
@@ -46,6 +46,16 @@ public class BoardController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "전체 글 조회", boardService.findAllBoard()), HttpStatus.OK);
     }
 
+
+//     //글 검색
+//     @GetMapping(value = "/boards/{boardId}/search")
+//     public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+
+
+//         model.addAttribute("searchList", boardSearchService.searchPosts(keyword));
+
+//         return "searchList";
+//     }
 
 }
 
