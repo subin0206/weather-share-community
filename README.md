@@ -165,7 +165,7 @@ weather-share-community
         "content": "test4",
         "privacy": false,
         "createDate": "2022-05-01T13:41:34.3370081",
-        "status": null,
+        "status": "HOT",
         "presentTemperature": "10",
         "highestTemperature": "17",
         "lowestTemperature": "5",
@@ -180,6 +180,38 @@ weather-share-community
             "profileUrl": "img url"
         }
     }
+}
+```   
+#### 글 전체조회(최신순)
+|||
+|------|---|
+|method|Get|
+|url|/boards|
+
+```
+{
+    "statusCode": 200,
+    "responseMessage": "글 성공",
+    "data": [
+        {
+            "content": "test3",
+            "privacy": false,
+            "createDate": "2022-05-01T13:49:36.6563063",
+            "status": "HOT",
+            "memberName": "a",
+            "profileUrl": "profile url",
+            "imgUrl": "글의 첫번째 이미지 url"
+        },
+        {
+            "content": "test4",
+            "privacy": false,
+            "createDate": "2022-05-01T13:49:36.6602927",
+            "status": "HOT",
+            "memberName": "eeee",
+            "profileUrl": "profile url",
+            "imgUrl": "글의 첫번째 이미지 url"
+        }
+    ]
 }
 ```   
 #### 글 삭제
