@@ -36,6 +36,7 @@ public class BoardResponseDto {
         this.content = entity.getContent();
         this.images = images;
         this.memberResponseDto = memberResponseDto;
+        this.status = entity.getStatus();
         this.highestTemperature = entity.getHighestTemperature();
         this.lowestTemperature = entity.getLowestTemperature();
         this.presentTemperature = entity.getPresentTemperature();

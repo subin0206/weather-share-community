@@ -3,7 +3,6 @@ package com.springproject.weathersharecommunity.service;
 import com.springproject.weathersharecommunity.Controller.dto.ScrapeListResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.ScrapeSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
-import com.springproject.weathersharecommunity.domain.Likes;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.domain.Scrape;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +30,8 @@ public class ScrapeService {
     public void scrape(ScrapeSaveRequestDto requestDto) {
         Member member = memberRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("멤버를 찾지 못했습니다."));
-        Board board = boardRepository.findOne(requestDto.getBoardId());
+        Board board = boardRepository.findById(requestDto.getBoardId())
+                .orElseThrow(()->new IllegalArgumentException("글을 찾지 못했습니다."));
 
         Optional<Scrape> scrapePost = scrapeRepository.findByBoardAndMember(board, member);
         scrapePost.ifPresentOrElse(

@@ -35,6 +35,7 @@ public class BoardAllResponseDto {
         this.content = entity.getContent();
         this.memberName = entity.getMember().getUsername();
         this.profileUrl = entity.getMember().getProfileUrl();
+        this.status = entity.getStatus();
         try{
         this.imgUrl = entity.getImages().get(0).getUrl();
         }catch(IndexOutOfBoundsException e){

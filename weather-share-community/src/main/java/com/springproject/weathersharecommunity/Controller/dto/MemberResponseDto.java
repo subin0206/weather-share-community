@@ -13,6 +13,7 @@ public class MemberResponseDto {
 
     @Builder
     public MemberResponseDto(Member entity) {
+        this.id = entity.getId();
         this.userName = entity.getUsername();
         this.userEmail = entity.getUserEmail();
         this.profileUrl = entity.getProfileUrl();
