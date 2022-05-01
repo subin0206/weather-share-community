@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springproject.weathersharecommunity.domain.clothes.Clothes;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +32,6 @@ public class Board {
     @JoinColumn(name = "user_id")
 //    @JsonIgnore
     private Member member;
-
     private boolean privacy;
 
     @CreatedDate
@@ -77,4 +77,19 @@ public class Board {
     private String highestTemperature;
 
     private String lowestTemperature;
+
+    @Builder
+    public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature) {
+        this.content = content;
+        this.member = member;
+        this.privacy = privacy;
+        this.createDate = createDate;
+        this.status = status;
+        this.clothes = clothes;
+        this.presentTemperature = presentTemperature;
+        this.highestTemperature = highestTemperature;
+        this.lowestTemperature = lowestTemperature;
+    }
+
+
 }

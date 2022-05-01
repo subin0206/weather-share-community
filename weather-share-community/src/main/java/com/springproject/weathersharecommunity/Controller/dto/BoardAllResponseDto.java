@@ -1,0 +1,46 @@
+package com.springproject.weathersharecommunity.Controller.dto;
+
+
+import com.springproject.weathersharecommunity.domain.Board;
+import com.springproject.weathersharecommunity.domain.Image;
+import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.domain.WeatherStatus;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class BoardAllResponseDto {
+
+    private String content;
+
+    private boolean privacy;
+
+    private LocalDateTime createDate = LocalDateTime.now();
+
+    private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
+
+    private String memberName;
+
+    private String profileUrl;
+
+    private String imgUrl;
+
+    public BoardAllResponseDto(Board entity) {
+        this.content = entity.getContent();
+        this.memberName = entity.getMember().getUsername();
+        this.profileUrl = entity.getMember().getProfileUrl();
+        try{
+        this.imgUrl = entity.getImages().get(0).getUrl();
+        }catch(IndexOutOfBoundsException e){
+            imgUrl = "";
+        }
+    }
+
+
+}

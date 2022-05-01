@@ -39,72 +39,6 @@ public class BoardController {
 
     private final BoardRepositoryTest boardRepositoryTest;
 
-//    @GetMapping("/boards/new")
-//    public String createForm(Model model) {
-//        model.addAttribute("BoardRequestDto", new BoardRequestDto());
-//        return "board/createBoardForm";
-//    }
-
-    //글 등록
-    @PostMapping("/boards/new")
-
-    public ResponseEntity<Board> create(@Valid @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> images) {
-
-        Board board = new Board();
-
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) user.getPrincipal();
-
-//       fileUploadService.uploadImage(images);
-
-        board.setMember(member);
-        board.setContent(boardRequestDto.getContent());
-        board.setCreateDate(boardRequestDto.getCreateDate());
-        board.setStatus(boardRequestDto.getStatus());
-        board.setPrivacy(boardRequestDto.isPrivacy());
-
-        board.setLowestTemperature(boardRequestDto.getLowestTemperature());
-        board.setPresentTemperature(boardRequestDto.getPresentTemperature());
-        board.setHighestTemperature(boardRequestDto.getHighestTemperature());
-
-//        board.setImages(fileUploadService.uploadImage(images));
-//        boardService.create(board);
-
-//         for(Image image: imageList){
-//             image.setBoard(board);
-//         }
-//        board.setImages(fileUploadService.uploadImage(images));
-
-        boardService.create(board, images);
-
-        /*
-        List -> Json
-         */
-//        List<Image> listImages = board.getImages();
-//        String jsonImages = new Gson().toJson(listImages);
-//        System.out.println(jsonImages);
-//        return board;
-        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "성공"), HttpStatus.OK);
-
-    }
-
-    //글 전체 조회
-    @GetMapping(value = "/boards")
-    public ResponseEntity list(Model model) {
-        List<Board> boards = boardService.findBoards();
-        model.addAttribute("boards", boards);
-        return new ResponseEntity(boards, HttpStatus.OK);
-//        return boards;
-    }
-
-    //글 하나 조회
-    @GetMapping(value = "/board/{boardId}")
-    public ResponseEntity selectBoard(@PathVariable("boardId") Long boardId){
-        Board board = boardService.findOne(boardId);
-
-        return new ResponseEntity(board, HttpStatus.OK);
-    }
-
 
     //글 하나 조회 테스트
     @GetMapping(value = "/test/{boardId}")
@@ -112,61 +46,17 @@ public class BoardController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "글 성공", boardService.boardDetail(boardId)), HttpStatus.OK);
     }
 
-    //글 수정 폼
-//    @GetMapping(value = "/boards/edit")
-//    public String updateBoardForm(@RequestBody @PathVariable("boardId") Long boardId, Model model) {
-//        Board board = boardService.findOne(boardId);
-//
-//        BoardEditRequestDto form = new BoardEditRequestDto();
-//        form.setBoardId(board.getId());
-//        form.setContent(board.getContent());
-//        form.setPrivacy(board.isPrivacy());
-//
-//        model.addAttribute("form", form);
-//        return "boards/updateBoardForm";
-//    }
-
-    //글 수정
-    @PutMapping(value = "/boards/edit")
-    public Board updateBoard(@RequestBody BoardEditRequestDto dto){
-
-        Board board = boardService.findOne(dto.getBoardId());
-
-        System.out.println("id: " + dto.getBoardId());
-        System.out.println("content: "+ dto.getContent());
-        System.out.println("privacy: " + dto.isPrivacy());
-
-        boardService.updateBoard(dto);
-
-        return board;
-
-        //  return boardService.findOne(dto.getBoardId());
-        //return "redirect:/boards";
-        //@ModelAttribute("form") @PathVariable("boardId")
+    @PostMapping(value = "/test/board/save")
+    public ResponseEntity boardSave(@RequestPart BoardRequestDto requestDto,@RequestPart(required = false) List<MultipartFile> images){
+        boardService.save(requestDto, images);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "글 올리기 성공"), HttpStatus.OK);
     }
 
-
-    //글 삭제 폼
-    @GetMapping(value = "/boards/{boardId}/delete")
-    public String deleteBoardForm(@PathVariable("boardId") Long boardId, Model model) {
-        Board board = boardService.findOne(boardId);
-
-        BoardRequestDto form = new BoardRequestDto();
-        form.setBoardId(board.getId());
-
-        model.addAttribute("form", form);
-        return "boards/updateBoardForm";
+    @GetMapping(value = "/test/boards")
+    public ResponseEntity boardAll() {
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "전체 글 조회", boardService.findAllBoard()), HttpStatus.OK);
     }
 
-
-    //글 삭제
-    @DeleteMapping(value = "/boards/{boardId}/delete")
-    public String deleteBoard(@ModelAttribute("form") @RequestBody BoardRequestDto form){
-        Board board = boardService.findOne(form.getBoardId());
-        boardService.delete(board);
-        //return board;
-        return "redirect:/boards";
-    }
 
 }
 
