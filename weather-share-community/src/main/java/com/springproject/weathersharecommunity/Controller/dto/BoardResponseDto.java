@@ -16,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class BoardResponseDto {
 
+    private Long id;
+
     private String content;
 
     private boolean privacy;
@@ -33,6 +35,7 @@ public class BoardResponseDto {
     private List<String> images;
     private MemberResponseDto memberResponseDto;
     public BoardResponseDto(Board entity, List<String> images, MemberResponseDto memberResponseDto) {
+        this.id = entity.getId();
         this.content = entity.getContent();
         this.images = images;
         this.memberResponseDto = memberResponseDto;
