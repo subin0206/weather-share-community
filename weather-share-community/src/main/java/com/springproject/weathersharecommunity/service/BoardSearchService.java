@@ -16,12 +16,12 @@ public class BoardSearchService {
 
     BoardRepository boardRepository;
 
-    //글 검색
-    @Transactional
-    public List<BoardSearchDto> searchPosts(String keyword) {
-        return boardRepository.findAllSearch(keyword).stream()
-                .map(BoardSearchDto::new)
-                .collect(Collectors.toList());
-    }
+//    //글 검색
+//    @Transactional
+//    public List<BoardSearchDto> searchPosts(String keyword) {
+//        return boardRepository.findAllSearch(keyword).stream()
+//                .map(BoardSearchDto::new)
+//                .collect(Collectors.toList());
+//    }
 }
 
