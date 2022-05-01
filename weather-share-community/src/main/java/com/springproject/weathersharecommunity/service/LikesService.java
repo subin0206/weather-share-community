@@ -2,7 +2,6 @@ package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.LikeSaveRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.LikesListResponseDto;
-import com.springproject.weathersharecommunity.Controller.dto.ScrapeListResponseDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Likes;
 import com.springproject.weathersharecommunity.domain.Member;
@@ -31,7 +30,8 @@ public class LikesService {
     public void likes(LikeSaveRequestDto requestDto) {
         Member member = memberRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("멤버를 찾지 못했습니다."));
-        Board board = boardRepository.findOne(requestDto.getBoardId());
+        Board board = boardRepository.findById(requestDto.getBoardId())
+                .orElseThrow(() -> new IllegalArgumentException("글을 찾지 못했습니다."));
         Optional<Likes> likesPost = likesRepository.findByBoardAndMember(board, member);
         likesPost.ifPresentOrElse(
                 likes -> {
