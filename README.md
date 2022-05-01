@@ -138,7 +138,7 @@ weather-share-community
 |||
 |------|---|
 |method|Post|
-|url|/boards/new|
+|url|/board/save|
 |Header|X-AUTH-TOKEN|  
 |Body|{ "content": "test", "privacy": true, "status" : "HOT","presentTemperature":"17","highestTemperature":"19","lowestTemperature":"10"}|
 |file|null 불가능, 3개까지|
@@ -147,7 +147,7 @@ weather-share-community
 ```
 {
     "statusCode": 200,
-    "responseMessage": "성공",
+    "responseMessage": "글 올리기 성공",
     "data": null
 }
 ```  
@@ -159,23 +159,27 @@ weather-share-community
 
 ```
 {
-    "id": 36,
-    "content": "test",
-    "member": {
-        "id": 12,
-        "userEmail": "eeee@eeee.com",
-        "profileUrl": "이미지 url",
-        "username": "eeee",
-    },
-    "privacy": true,
-    "createDate": "2022-03-23T18:27:11",
-    "status": "HOT",
-    "images": [url 리스트],
-    "clothes": null,
-    "likesCount": 0,
-    "presentTemperature": "17",
-    "highestTemperature": "19",
-    "lowestTemperature": "10"
+    "statusCode": 200,
+    "responseMessage": "글 성공",
+    "data": {
+        "content": "test4",
+        "privacy": false,
+        "createDate": "2022-05-01T13:41:34.3370081",
+        "status": null,
+        "presentTemperature": "10",
+        "highestTemperature": "17",
+        "lowestTemperature": "5",
+        "images": [
+            "img url1",
+            "img url2"
+        ],
+        "memberResponseDto": {
+            "id": 10,
+            "userName": "eeee",
+            "userEmail": "eeee@eeee.com",
+            "profileUrl": "img url"
+        }
+    }
 }
 ```   
 #### 글 삭제
