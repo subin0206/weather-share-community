@@ -4,7 +4,9 @@ import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Image;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.domain.WeatherStatus;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.tomcat.jni.Local;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,12 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter @Setter
 public class BoardRequestDto {
-
-    private Board board;
-
-    private long boardId;
 
     private Member member;
 
@@ -37,4 +36,29 @@ public class BoardRequestDto {
     private String highestTemperature;
 
     private String lowestTemperature;
+
+    @Builder
+    public BoardRequestDto(Member member ,String content, boolean privacy, LocalDateTime createDate, WeatherStatus status, String presentTemperature, String highestTemperature, String lowestTemperature) {
+        this.member = member;
+        this.content = content;
+        this.privacy = privacy;
+        this.createDate = createDate;
+        this.status = status;
+        this.presentTemperature = presentTemperature;
+        this.highestTemperature = highestTemperature;
+        this.lowestTemperature = lowestTemperature;
+    }
+
+    public Board toEntity() {
+        return Board.builder()
+                .content(content)
+                .createDate(createDate)
+                .member(member)
+                .status(status)
+                .highestTemperature(highestTemperature)
+                .lowestTemperature(lowestTemperature)
+                .presentTemperature(presentTemperature)
+                .privacy(privacy)
+                .build();
+    }
 }
