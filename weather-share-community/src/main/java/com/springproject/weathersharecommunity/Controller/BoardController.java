@@ -52,7 +52,15 @@ public class BoardController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "전체 글 조회", boardService.findAllBoard()), HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/test/boards")
+    public String test() {
+        boardService.updateScore();
+        return "성공";
+    }
+    @GetMapping(value = "/boards/popular")
+    public ResponseEntity popularBoards() {
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "인기글", boardService.popularBoards()), HttpStatus.OK);
+    }
 //     //글 검색
 //     @GetMapping(value = "/boards/{boardId}/search")
 //     public String search(@RequestParam(value = "keyword") String keyword, Model model) {

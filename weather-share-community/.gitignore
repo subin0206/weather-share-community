@@ -39,3 +39,6 @@ out/
 src/main/resources/real-aws.yml
 src/main/resources/aws.yml
 src/main/resources/db.yml
+
+## test
+src/test

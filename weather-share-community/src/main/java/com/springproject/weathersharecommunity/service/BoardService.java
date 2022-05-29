@@ -37,7 +37,7 @@ public class BoardService {
         BoardResponseDto boardResponseDto = new BoardResponseDto(board, images, null);
         Long memberId = board.getMember().getId();
         Member entity = memberRepository.findById(memberId)
-                .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         MemberResponseDto memberResponseDto = new MemberResponseDto(entity);
         boardResponseDto.setMemberResponseDto(memberResponseDto);
 
@@ -52,20 +52,39 @@ public class BoardService {
         requestDto.setMember(member);
         Board board1 = boardRepository.save(requestDto.toEntity());
     }
+
     @Transactional
     public List<BoardAllResponseDto> findAllBoard() {
         List<Board> boards = boardRepository.findAll();
         List<BoardAllResponseDto> list = new ArrayList<>();
-        try{
-        list = boards
-                .stream().map(BoardAllResponseDto::new)
-                .collect(Collectors.toList());
+        try {
+            list = boards
+                    .stream().map(BoardAllResponseDto::new)
+                    .collect(Collectors.toList());
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return list;
 
     }
+
+    @Transactional
+    public void updateScore() {
+        List<Board> boards = boardRepository.findAll();
+        for (int i = 0; i < boards.size(); i++) {
+            boards.get(i).countScore(boards.get(i));
+        }
+    }
+
+    @Transactional
+    public List<BoardAllResponseDto> popularBoards() {
+        List<BoardAllResponseDto> boards = boardRepository.findAllByOrderByScoreDesc()
+                .stream()
+                .map(BoardAllResponseDto::new)
+                .collect(Collectors.toList());
+        return boards;
+    }
+
 
 }

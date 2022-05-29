@@ -6,12 +6,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -59,6 +65,8 @@ public class Board {
     @JsonBackReference
     private List<Reply> replies;
 
+    private int score;
+
     public void mappingBoardLike(Likes likes) {
         this.likesList.add(likes);
     }
@@ -77,8 +85,34 @@ public class Board {
 
     private String lowestTemperature;
 
+    public void countScore(Board board) {
+        LocalDate now = LocalDate.now();
+        Calendar getToday = Calendar.getInstance();
+        getToday.setTime(new Date());
+        Calendar boardDate = Calendar.getInstance();
+        boardDate.setTime(java.sql.Timestamp.valueOf(board.getCreateDate()));
+        long diffSec = (getToday.getTimeInMillis() - boardDate.getTimeInMillis()) / 1000;
+        long diffDays = diffSec / (24 * 60 * 60);
+
+        score = 0;
+
+        if (diffDays == 0) {
+            score += 100;
+        } else if ( diffDays > 0 && diffDays <= 7) {
+            score += 50;
+        } else if (diffDays > 7 && diffDays <= 14) {
+            score += 30;
+        } else if (diffDays > 14 && diffDays<= 21) {
+            score += 10;
+        }
+        else{
+            score += 0;
+        }
+        this.score = (int) (score + board.getLikesCount() * 10);
+    }
+
     @Builder
-    public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature) {
+    public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature, Long score) {
         this.content = content;
         this.member = member;
         this.privacy = privacy;
