@@ -2,13 +2,11 @@ package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
-import com.springproject.weathersharecommunity.domain.ConfirmToken;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ConfirmTokenService confirmTokenService;
     private final S3FileUploadService s3FileUploadService;
     @Transactional
     public void save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
@@ -42,18 +39,17 @@ public class MemberService {
         }
         Member member = memberRepository.save(requestDto.toEntity());
 
-       confirmTokenService.createEmailConfirmToken(String.valueOf(member.getId()), member.getUserEmail());
 
     }
-    @Transactional
-    public void confirmEmail(String token) {
-        ConfirmToken findConfirmToken = confirmTokenService.findByIdAndExpired(token);
-        Member member = memberRepository.findById(Long.valueOf(findConfirmToken.getUserId()))
-                .orElseThrow(()->new IllegalArgumentException("없는 멤버입니다."));
-        findConfirmToken.useToken();
-        member.setEmailAuth(true);
-
-    }
+//    @Transactional
+//    public void confirmEmail(String token) {
+//        ConfirmToken findConfirmToken = confirmTokenService.findByIdAndExpired(token);
+//        Member member = memberRepository.findById(Long.valueOf(findConfirmToken.getUserId()))
+//                .orElseThrow(()->new IllegalArgumentException("없는 멤버입니다."));
+//        findConfirmToken.useToken();
+//        member.setEmailAuth(true);
+//
+//    }
 
     @Transactional(readOnly = true)
     public MemberResponseDto myPage(Long memberId) {
@@ -74,7 +70,7 @@ public class MemberService {
 
     @Transactional
     public Member findByUserName(MemberSaveRequestDto requestDto) {
-        Member member = memberRepository.findByUserName(requestDto.getUserName())
+        Member member = memberRepository.findByUserEmail(requestDto.getUserEmail())
                 .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
         return member;
     }
@@ -90,7 +86,7 @@ public class MemberService {
     public void duplicationMember(MemberSaveRequestDto requestDto){
         boolean result = true;
         Optional<Member> checkEmail = memberRepository.findByUserEmail(requestDto.getUserEmail());
-        Optional<Member> checkMember = memberRepository.findByUserName(requestDto.getUserName());
+        Optional<Member> checkMember = memberRepository.findByNickName(requestDto.getNickName());
         if (checkMember.isPresent() || checkEmail.isPresent()) {
             result = false;
             throw new IllegalStateException("이미 존재하는 회원입니다.");

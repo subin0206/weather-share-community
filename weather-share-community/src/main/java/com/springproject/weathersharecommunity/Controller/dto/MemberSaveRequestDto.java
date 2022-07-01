@@ -11,21 +11,21 @@ import java.util.Collections;
 @NoArgsConstructor
 public class MemberSaveRequestDto {
     private PasswordEncoder passwordEncoder;
-    private String userName;
+    private String nickName;
     private String userEmail;
     private String pwd;
     private String profileUrl;
     private ArrayList<String> roles;
     @Builder
-    public MemberSaveRequestDto(String userName, String userEmail, String pwd) {
-        this.userName = userName;
+    public MemberSaveRequestDto(String nickName, String userEmail, String pwd) {
+        this.nickName = nickName;
         this.userEmail = userEmail;
         this.pwd = pwd;
     }
 
     public Member toEntity(){
         return Member.builder()
-                .userName(userName)
+                .nickName(nickName)
                 .userEmail(userEmail)
                 .pwd(pwd)
                 .profileUrl(profileUrl)
