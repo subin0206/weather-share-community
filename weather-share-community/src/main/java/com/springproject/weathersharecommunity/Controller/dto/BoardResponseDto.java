@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class BoardResponseDto {
 
     private String lowestTemperature;
 
+    private LocalDate codyDate;
+
     private List<String> images;
     private MemberResponseDto memberResponseDto;
     public BoardResponseDto(Board entity, List<String> images, MemberResponseDto memberResponseDto) {
@@ -40,6 +43,7 @@ public class BoardResponseDto {
         this.highestTemperature = entity.getHighestTemperature();
         this.lowestTemperature = entity.getLowestTemperature();
         this.presentTemperature = entity.getPresentTemperature();
+        this.codyDate = entity.getCodyDate();
     }
 
 

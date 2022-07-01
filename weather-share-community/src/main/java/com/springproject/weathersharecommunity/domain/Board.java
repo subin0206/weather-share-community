@@ -1,9 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +36,19 @@ public class Board {
     @CreatedDate
     private LocalDateTime createDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate codyDate;
+
+    @Enumerated(EnumType.STRING)
     private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
+
+    @Enumerated(EnumType.STRING)
+    private SkyCode skyCode;
 
     @OneToMany(mappedBy = "board")
     private List<Image> images = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "board")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.ALL)
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 
@@ -79,16 +85,18 @@ public class Board {
     private String lowestTemperature;
 
     @Builder
-    public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature) {
+    public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, SkyCode skyCode,Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature, LocalDate codyDate) {
         this.content = content;
         this.member = member;
         this.privacy = privacy;
         this.createDate = createDate;
+        this.skyCode = skyCode;
         this.status = status;
         this.clothes = clothes;
         this.presentTemperature = presentTemperature;
         this.highestTemperature = highestTemperature;
         this.lowestTemperature = lowestTemperature;
+        this.codyDate = codyDate;
     }
 
 

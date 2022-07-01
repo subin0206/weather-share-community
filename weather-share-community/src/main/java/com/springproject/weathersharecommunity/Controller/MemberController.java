@@ -87,11 +87,11 @@ public class MemberController {
         Member member = (Member) user.getPrincipal();
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "마이페이지", memberService.myPage(member.getId())),HttpStatus.OK);
     }
-    @GetMapping("confirm-email")
-    public String viewConfirmEmail(@Valid @RequestParam String token) {
-        memberService.confirmEmail(token);
-        return "redirect:/test";
-    }
+//    @GetMapping("confirm-email")
+//    public String viewConfirmEmail(@Valid @RequestParam String token) {
+//        memberService.confirmEmail(token);
+//        return "redirect:/test";
+//    }
 
     @PostMapping("user/mypage/edit/profile")
     public ResponseEntity ProfileUpdate(@RequestPart(value = "profile", required = false) final MultipartFile multipartFile) {
