@@ -194,6 +194,7 @@ weather-share-community
     "responseMessage": "글 성공",
     "data": [
         {
+            "id": "58",
             "content": "test3",
             "privacy": false,
             "createDate": "2022-05-01T13:49:36.6563063",
@@ -203,6 +204,7 @@ weather-share-community
             "imgUrl": "글의 첫번째 이미지 url"
         },
         {
+            "id": "61",
             "content": "test4",
             "privacy": false,
             "createDate": "2022-05-01T13:49:36.6602927",
@@ -268,6 +270,37 @@ weather-share-community
     "statusCode": 200,
     "responseMessage": "댓글달기"
     "data": null
+}
+```   
+#### 댓글목록
+|||
+|------|---|
+|method|Get|
+|url|/board/{boardId}/replies|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "댓글 목록",
+    "data": [
+        {
+            "id": 1,
+            "content": "hi",
+            "memberName": "eeee",
+            "profileUrl": "profile img url"
+        },
+        {
+            "id": 2,
+            "content": "hi2",
+            "memberName": "eeee",
+            "profileUrl": "profile img url"
+        },
+        {
+            "id": 3,
+            "content": "a_reply",
+            "memberName": "a",
+            "profileUrl": "profile img url"
+        }
+    ]
 }
 ```   
 #### 댓글 삭제

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,10 @@ public class ReplyController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글달기",null), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/board/{boardId}/replies")
+    public ResponseEntity replyList(@PathVariable Long boardId) {
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글 목록", replyService.replyList(boardId)), HttpStatus.OK);
+    }
     @PostMapping("/board/reply/{replyId}")
     public ResponseEntity replyDelete(@PathVariable Long replyId) {
         replyService.replyDelete(replyId);
