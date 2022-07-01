@@ -112,4 +112,9 @@ public class Member implements UserDetails {
     public void emailVerifiedSuccess(){
         this.emailAuth = false;
     }
+
+    //
+    @Column(nullable = false)
+    private Long followingCount;
+    public Long getPostCount() {return followingCount;}
 }

@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,13 @@ public class Follow {
     @ManyToOne
     private Member toMember; //구독 당하는 사람
 
+
+
     @Builder
     public Follow (Member fromMember, Member toMember) {
         this.fromMember = fromMember;
         this.toMember = toMember;
-    }
 
+
+    }
 }

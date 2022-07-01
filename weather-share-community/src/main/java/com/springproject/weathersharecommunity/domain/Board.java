@@ -60,6 +60,7 @@ public class Board {
     @JsonBackReference
     private List<Reply> replies;
 
+
     public void mappingBoardLike(Likes likes) {
         this.likesList.add(likes);
     }

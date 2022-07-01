@@ -32,6 +32,7 @@ public class BoardAllResponseDto {
 
     private String imgUrl;
 
+
     public BoardAllResponseDto(Board entity) {
         this.id = entity.getId();
         this.content = entity.getContent();
