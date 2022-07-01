@@ -3,6 +3,7 @@ package com.springproject.weathersharecommunity.service;
 import com.springproject.weathersharecommunity.Controller.dto.*;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
 import com.springproject.weathersharecommunity.repository.ImageRepository;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
@@ -45,13 +46,13 @@ public class BoardService {
     }
 
     @Transactional
-    public void save(BoardRequestDto requestDto, List<MultipartFile> images){
+    public void save(BoardRequestDto requestDto, Clothes clothes, List<MultipartFile> images){
 
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
         requestDto.setMember(member);
         Board board1 = boardRepository.save(requestDto.toEntity());
-
+        clothes.setBoard(board1);
         board1.setImages(fileUploadService.uploadImage(images,board1));
 
     }

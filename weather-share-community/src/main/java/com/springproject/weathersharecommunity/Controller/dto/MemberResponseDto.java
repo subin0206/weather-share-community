@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class MemberResponseDto {
     private Long id;
-    private String userName;
+    private String nickName;
     private String userEmail;
     private String profileUrl;
 
@@ -15,7 +15,7 @@ public class MemberResponseDto {
     @Builder
     public MemberResponseDto(Member entity) {
         this.id = entity.getId();
-        this.userName = entity.getUsername();
+        this.nickName = entity.getNickName();
         this.userEmail = entity.getUserEmail();
         this.profileUrl = entity.getProfileUrl();
 

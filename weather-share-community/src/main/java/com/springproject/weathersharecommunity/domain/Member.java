@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,16 +24,13 @@ public class Member implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String userName;
+    private String nickName;
 
     @Column(nullable = false)
     private String userEmail;
 
     @Column(nullable = false)
     private String pwd;
-
-    @Column
-    private Boolean emailAuth;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -56,13 +52,12 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Reply> replies;
     @Builder
-    public Member(String userName, String userEmail, String pwd, String profileUrl,List<String> roles, Boolean emailAuth) {
-        this.userName = userName;
+    public Member(String nickName, String userEmail, String pwd, String profileUrl, List<String> roles) {
+        this.nickName = nickName;
         this.userEmail = userEmail;
         this.pwd = pwd;
         this.profileUrl = profileUrl;
         this.roles = roles;
-        this.emailAuth = emailAuth;
     }
 
     public void mappingBoardLike(Likes likes) {
@@ -86,7 +81,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return nickName;
     }
 
     @Override
@@ -109,12 +104,5 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void emailVerifiedSuccess(){
-        this.emailAuth = false;
-    }
 
-    //
-    @Column(nullable = false)
-    private Long followingCount;
-    public Long getPostCount() {return followingCount;}
 }
