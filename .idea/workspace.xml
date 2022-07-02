@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ceda125-db54-45ae-a3f8-c22302eb8e1a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/FollowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/FollowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/Controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/domain/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/domain/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/domain/Follow.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/domain/Follow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/repository/BoardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/repository/BoardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/repository/FollowRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/repository/FollowRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/BoardSearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/BoardSearchService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/FollowService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/MemberFeedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/weather-share-community/src/main/java/com/springproject/weathersharecommunity/service/MemberFeedService.java" afterDir="false" />
-    </list>
+    <list default="true" id="9ceda125-db54-45ae-a3f8-c22302eb8e1a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feat/22-search" />
+        <entry key="$PROJECT_DIR$" value="feat/37-myFeed" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -71,7 +59,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="D:/" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.weather-share-community [build]">
     <configuration name="WeatherShareCommunityApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.springproject.weathersharecommunity.WeatherShareCommunityApplication" />
       <module name="weather-share-community.main" />
@@ -85,8 +73,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="weather-share-community [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/weather-share-community" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.weather-share-community [build]" />
+        <item itemvalue="Application.WeatherShareCommunityApplication" />
         <item itemvalue="Application.WeatherShareCommunityApplication" />
         <item itemvalue="Application.WeatherShareCommunityApplication" />
         <item itemvalue="Application.WeatherShareCommunityApplication" />
@@ -114,15 +125,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
