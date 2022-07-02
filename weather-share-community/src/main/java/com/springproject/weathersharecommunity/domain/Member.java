@@ -104,7 +104,4 @@ public class Member implements UserDetails {
         return true;
     }
 
-    @Column(nullable = false)
-    private Long followingCount;
-    public Long getPostCount() {return followingCount;}
 }
