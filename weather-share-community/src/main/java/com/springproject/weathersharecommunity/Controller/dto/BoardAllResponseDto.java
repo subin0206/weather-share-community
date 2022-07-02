@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BoardAllResponseDto {
 
+    private Long id;
     private String content;
 
     private boolean privacy;
@@ -31,7 +32,9 @@ public class BoardAllResponseDto {
 
     private String imgUrl;
 
+
     public BoardAllResponseDto(Board entity) {
+        this.id = entity.getId();
         this.content = entity.getContent();
         this.memberName = entity.getMember().getUsername();
         this.profileUrl = entity.getMember().getProfileUrl();

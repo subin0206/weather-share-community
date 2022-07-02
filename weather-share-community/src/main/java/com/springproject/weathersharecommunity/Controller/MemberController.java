@@ -9,6 +9,7 @@ import com.springproject.weathersharecommunity.http.ResponseMessage;
 import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.jwt.JwtTokenProvider;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
+import com.springproject.weathersharecommunity.service.MemberFeedService;
 import com.springproject.weathersharecommunity.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,7 @@ public class MemberController {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final MemberFeedService memberFeedService;
 
     @PostMapping("user/join")
     @ResponseBody
@@ -98,6 +100,30 @@ public class MemberController {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "마이페이지 수정 완료", memberService.ProfileImgUpdate(member.getId(), multipartFile)),HttpStatus.OK);
+    }
+
+    //개인 피드
+    @GetMapping("user/memberFeed")
+    public ResponseEntity memberFeed() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "개인 피드", memberFeedService.memberFeed(member.getId())),HttpStatus.OK);
+    }
+
+    //개인 피드(사진)
+    @GetMapping("user/memberFeedImg")
+    public ResponseEntity memberFeedImg() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "개인 피드", memberFeedService.memberFeedImg(member.getId())),HttpStatus.OK);
+    }
+
+    //개인 피드 개수
+    @GetMapping("user/memberFeedCount")
+    public ResponseEntity postCount() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "게시글 개수", memberFeedService.postCount(member.getId())),HttpStatus.OK);
     }
 
 

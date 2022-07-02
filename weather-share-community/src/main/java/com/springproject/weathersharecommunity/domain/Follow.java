@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Follow {
     @ManyToOne
     private Member fromMember; //구독 하는 사람
 
+
     @JoinColumn(name = "to_member_id")
     @ManyToOne
     private Member toMember; //구독 당하는 사람
@@ -27,6 +29,7 @@ public class Follow {
     public Follow (Member fromMember, Member toMember) {
         this.fromMember = fromMember;
         this.toMember = toMember;
-    }
 
+
+    }
 }

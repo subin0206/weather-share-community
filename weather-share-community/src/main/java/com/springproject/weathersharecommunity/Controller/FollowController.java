@@ -1,9 +1,11 @@
 package com.springproject.weathersharecommunity.Controller;
 
+import com.mysql.cj.x.protobuf.Mysqlx;
 import com.springproject.weathersharecommunity.Controller.dto.FollowSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.http.DefaultRes;
+import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.repository.FollowRepository;
 import com.springproject.weathersharecommunity.service.FollowService;
 import lombok.RequiredArgsConstructor;
@@ -48,34 +50,30 @@ public class FollowController {
 
     }
 
-    // 나를 팔로우하는 사람들 리스트
-    @GetMapping("/follow/getFollower/{toMemberId}")
-    public ResponseEntity getFollower(@PathVariable long toMemberId) {
-        return new ResponseEntity(DefaultRes.defaultRes(com.springproject.weathersharecommunity.http.StatusCode.OK, "팔로우 리스트", followService.getFollower(toMemberId)), HttpStatus.OK);
-    }
-
-   /* public List<FollowListResponseDto> getFollower(@PathVariable long toMemberId) {
-        return followService.getFollower(toMemberId);
-    } */
 
     //내가 팔로우하는 사람들 리스트
     @GetMapping("/follow/getFollowing")
     public ResponseEntity getFollowing() {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) user.getPrincipal();
-
         return new ResponseEntity(DefaultRes.defaultRes(com.springproject.weathersharecommunity.http.StatusCode.OK, "팔로잉 리스트", followService.getFollowing(member.getId())), HttpStatus.OK);
     }
 
-    /*public List<FollowListResponseDto> getFollowing(@PathVariable long fromMemberId) {
-        return followService.getFollowing(fromMemberId);
-    } */
+    //팔로우한 사람 수
+    @GetMapping("/follow/getFollowingCount")
+    public ResponseEntity followCount() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(com.springproject.weathersharecommunity.http.StatusCode.OK, "팔로잉 수", followService.followCount(followService.getFollowingId(member.getId()))), HttpStatus.OK);
+    }
 
     @GetMapping("boards/main")
     public ResponseEntity FollowingPosts(FollowSaveRequestDto followSaveRequestDto) {
-        followService.followingPosts();
-
-        return new ResponseEntity(DefaultRes.defaultRes(com.springproject.weathersharecommunity.http.StatusCode.OK, "팔로우 피드"), HttpStatus.OK);
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        followService.getFollowingId(member.getId());
+        return new ResponseEntity(DefaultRes.defaultRes(com.springproject.weathersharecommunity.http.StatusCode.OK, "팔로우 피드",
+                followService.followingPosts(followService.getFollowingId(member.getId()))), HttpStatus.OK);
     }
 
 }

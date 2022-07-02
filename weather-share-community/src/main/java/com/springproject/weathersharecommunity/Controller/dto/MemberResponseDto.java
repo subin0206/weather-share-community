@@ -11,11 +11,13 @@ public class MemberResponseDto {
     private String userEmail;
     private String profileUrl;
 
+
     @Builder
     public MemberResponseDto(Member entity) {
         this.id = entity.getId();
         this.nickName = entity.getNickName();
         this.userEmail = entity.getUserEmail();
         this.profileUrl = entity.getProfileUrl();
+
     }
 }

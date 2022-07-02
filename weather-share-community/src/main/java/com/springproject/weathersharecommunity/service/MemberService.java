@@ -3,9 +3,11 @@ package com.springproject.weathersharecommunity.service;
 import com.springproject.weathersharecommunity.Controller.dto.MemberResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.MemberSaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Member;
+import com.springproject.weathersharecommunity.repository.FollowRepository;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,11 +20,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Service
+@Setter
 @Getter
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final S3FileUploadService s3FileUploadService;
+    private final FollowRepository followRepository;
     @Transactional
     public void save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
         duplicationMember(requestDto);
@@ -57,6 +61,16 @@ public class MemberService {
                 .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
         return new MemberResponseDto(entity);
     }
+
+//    @Transactional
+//    public MemberResponseDto getMemberProfile(Long memberId) {
+//        Member entity = memberRepository.findById(memberId)
+//                .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
+//        MemberResponseDto memberResponseDto = new MemberResponseDto(entity);
+//        memberResponseDto.getFollowingCount(followRepository.findFollowingCountById(memberId));
+//
+//        return new MemberResponseDto(entity);
+//    }
 
     @Transactional
     public String ProfileImgUpdate(Long memberId ,MultipartFile multipartFile) {

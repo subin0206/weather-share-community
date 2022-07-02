@@ -12,8 +12,6 @@ import lombok.Getter;
 public class FollowDto {
     private long id;
     private String name;
-    private String profileImgUrl;
-    private int followState;
-    private int loginUser;
+
 
 }
