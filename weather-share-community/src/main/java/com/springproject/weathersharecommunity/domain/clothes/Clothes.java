@@ -1,15 +1,16 @@
 package com.springproject.weathersharecommunity.domain.clothes;
 
 import com.springproject.weathersharecommunity.domain.Board;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 public class Clothes {
 
     @Id
@@ -21,19 +22,32 @@ public class Clothes {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "clothes")
-    private List<Top> tops = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Bottom bottom;
 
-    @OneToMany(mappedBy = "clothes")
-    private List<Bottom> bottoms = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Top top;
 
-    @OneToMany(mappedBy = "clothes")
-    private List<OuterClothing> outers = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private OuterClothing outerClothing;
 
-    @OneToOne(mappedBy = "clothes")
+    @Enumerated(EnumType.STRING)
     private Shoes shoes;
 
-    @OneToMany(mappedBy = "clothes")
-    private List<Accessory> accessories = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Accessory1 accessory1;
 
+    @Enumerated(EnumType.STRING)
+    private Accessory2 accessory2;
+
+    @Builder
+    public Clothes(Board board, Bottom bottom, Top top, OuterClothing outerClothing, Shoes shoes, Accessory1 accessory1, Accessory2 accessory2) {
+        this.board = board;
+        this.bottom = bottom;
+        this.top = top;
+        this.outerClothing = outerClothing;
+        this.shoes = shoes;
+        this.accessory1 = accessory1;
+        this.accessory2 = accessory2;
+    }
 }

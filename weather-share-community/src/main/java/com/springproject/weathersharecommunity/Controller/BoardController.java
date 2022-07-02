@@ -3,6 +3,7 @@ package com.springproject.weathersharecommunity.Controller;
 import com.springproject.weathersharecommunity.Controller.dto.BoardAllResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardImgResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
+import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
@@ -39,8 +40,9 @@ public class BoardController {
     }
 
     @PostMapping(value = "/board/save")
-    public ResponseEntity boardSave(@RequestPart BoardRequestDto requestDto, @RequestPart(required = false) List<MultipartFile> images) {
-        boardService.save(requestDto, images);
+    public ResponseEntity boardSave(@RequestPart BoardRequestDto requestDto,@RequestPart(value = "clothes") Clothes clothes,@RequestPart(required = false) List<MultipartFile> images){
+        requestDto.setClothes(clothes);
+        boardService.save(requestDto,clothes ,images);
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "글 올리기 성공"), HttpStatus.OK);
     }
 
