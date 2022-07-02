@@ -1,6 +1,7 @@
 package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.BoardAllResponseDto;
+import com.springproject.weathersharecommunity.Controller.dto.BoardImgResponseDto;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
 import com.springproject.weathersharecommunity.repository.FollowRepository;
@@ -23,8 +24,6 @@ public class MemberFeedService {
     // 내가 쓴 글 (개인 피드)
     @Transactional
     public List<BoardAllResponseDto> memberFeed(long memberId) {
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) user.getPrincipal();
         List<BoardAllResponseDto> memberFeedList =
                 boardRepository.findByMemberIdOrderByIdDesc(memberId).stream()
                         .map(BoardAllResponseDto::new)
@@ -32,5 +31,20 @@ public class MemberFeedService {
         return memberFeedList;
     }
 
+   //개인 피드 (아이디/사진만)
+    @Transactional
+    public List<BoardImgResponseDto> memberFeedImg(long memberId) {
+        List<BoardImgResponseDto> memberFeedImg =
+                boardRepository.findByMemberIdOrderByIdDesc(memberId).stream()
+                        .map(BoardImgResponseDto::new)
+                        .collect(Collectors.toList());
+        return memberFeedImg;
+    }
+
+    @Transactional
+    public int postCount(long memberId) {
+        int postCount = memberFeed(memberId).size();
+        return postCount;
+    }
 
 }

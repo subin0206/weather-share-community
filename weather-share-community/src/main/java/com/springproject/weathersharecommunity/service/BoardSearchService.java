@@ -1,6 +1,7 @@
 package com.springproject.weathersharecommunity.service;
 
 import com.springproject.weathersharecommunity.Controller.dto.BoardAllResponseDto;
+import com.springproject.weathersharecommunity.Controller.dto.BoardImgResponseDto;
 import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,14 @@ public class BoardSearchService {
     public List<BoardAllResponseDto> searchPosts(String keyword) {
         return boardRepository.findAllSearch(keyword).stream()
                 .map(BoardAllResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    //글 검색(사진)
+    @Transactional
+    public List<BoardImgResponseDto> searchPostsImg(String keyword) {
+        return boardRepository.findAllSearch(keyword).stream()
+                .map(BoardImgResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

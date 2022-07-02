@@ -110,5 +110,21 @@ public class MemberController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "개인 피드", memberFeedService.memberFeed(member.getId())),HttpStatus.OK);
     }
 
+    //개인 피드(사진)
+    @GetMapping("user/memberFeedImg")
+    public ResponseEntity memberFeedImg() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "개인 피드", memberFeedService.memberFeedImg(member.getId())),HttpStatus.OK);
+    }
+
+    //개인 피드 개수
+    @GetMapping("user/memberFeedCount")
+    public ResponseEntity postCount() {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "게시글 개수", memberFeedService.postCount(member.getId())),HttpStatus.OK);
+    }
+
 
 }

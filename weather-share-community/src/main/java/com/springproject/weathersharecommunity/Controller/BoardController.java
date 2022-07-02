@@ -1,6 +1,7 @@
 package com.springproject.weathersharecommunity.Controller;
 
 import com.springproject.weathersharecommunity.Controller.dto.BoardAllResponseDto;
+import com.springproject.weathersharecommunity.Controller.dto.BoardImgResponseDto;
 import com.springproject.weathersharecommunity.Controller.dto.BoardRequestDto;
 import com.springproject.weathersharecommunity.http.DefaultRes;
 import com.springproject.weathersharecommunity.http.StatusCode;
@@ -54,6 +55,18 @@ public class BoardController {
     public ResponseEntity search(@RequestParam(value = "keyword", required = false) String keyword) {
         List<BoardAllResponseDto> boards = new ArrayList<>();
         boards = boardSearchService.searchPosts(keyword);
+        if (boards.size() == 0) {
+            return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "컨텐츠가 없습니다"), HttpStatus.OK);
+        } else
+            return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "검색", boards), HttpStatus.OK);
+
+    }
+
+    //글 검색(사진)
+    @GetMapping(value = "/board/searchImg")
+    public ResponseEntity searchImg(@RequestParam(value = "keyword", required = false) String keyword) {
+        List<BoardImgResponseDto> boards = new ArrayList<>();
+        boards = boardSearchService.searchPostsImg(keyword);
         if (boards.size() == 0) {
             return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "컨텐츠가 없습니다"), HttpStatus.OK);
         } else

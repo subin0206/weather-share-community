@@ -79,6 +79,7 @@ public class Board {
 
     private String lowestTemperature;
 
+
     @Builder
     public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature) {
         this.content = content;
@@ -90,6 +91,7 @@ public class Board {
         this.presentTemperature = presentTemperature;
         this.highestTemperature = highestTemperature;
         this.lowestTemperature = lowestTemperature;
+
     }
 
 
