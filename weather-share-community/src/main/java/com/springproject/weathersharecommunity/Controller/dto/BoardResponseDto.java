@@ -1,9 +1,7 @@
 package com.springproject.weathersharecommunity.Controller.dto;
 
-import com.springproject.weathersharecommunity.domain.Board;
-import com.springproject.weathersharecommunity.domain.Image;
-import com.springproject.weathersharecommunity.domain.Member;
-import com.springproject.weathersharecommunity.domain.WeatherStatus;
+import com.springproject.weathersharecommunity.domain.*;
+import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +25,8 @@ public class BoardResponseDto {
 
     private WeatherStatus status; //날씨 상태[더워요, 따뜻해요, 딱 좋아요, 서늘해요, 추워요]
 
+    private String skyCode;
+
     private String presentTemperature;
 
     private String highestTemperature;
@@ -35,14 +35,19 @@ public class BoardResponseDto {
 
     private LocalDate codyDate;
 
+    private Clothes clothes;
+
     private List<String> images;
     private MemberResponseDto memberResponseDto;
-    public BoardResponseDto(Board entity, List<String> images, MemberResponseDto memberResponseDto) {
+    private ClothesResponseDto clothesResponseDto;
+    public BoardResponseDto(Board entity, List<String> images, MemberResponseDto memberResponseDto, ClothesResponseDto clothesResponseDto) {
         this.id = entity.getId();
         this.content = entity.getContent();
         this.images = images;
+        this.clothesResponseDto = clothesResponseDto;
         this.memberResponseDto = memberResponseDto;
         this.status = entity.getStatus();
+        this.skyCode = entity.getSkyCode().getViewName();
         this.highestTemperature = entity.getHighestTemperature();
         this.lowestTemperature = entity.getLowestTemperature();
         this.presentTemperature = entity.getPresentTemperature();

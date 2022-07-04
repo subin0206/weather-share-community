@@ -1,7 +1,9 @@
 package com.springproject.weathersharecommunity.domain.clothes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public enum Accessory2 {
     scarf("목도리"), gloves("장갑"), sunglasses("선글라스")
     , belt("벨트"), hat("모자");

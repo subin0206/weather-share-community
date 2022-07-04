@@ -1,5 +1,6 @@
 package com.springproject.weathersharecommunity.Controller;
 
+import com.springproject.weathersharecommunity.Controller.dto.ReplyAgainRequestDto;
 import com.springproject.weathersharecommunity.Controller.dto.ReplySaveRequestDto;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.http.DefaultRes;
@@ -32,10 +33,22 @@ public class ReplyController {
 
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글달기",null), HttpStatus.OK);
     }
+    @PostMapping(value = "/board/{boardId}/reply/{replyId}",consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity reply2Write(@RequestBody ReplyAgainRequestDto requestDto, @PathVariable Long boardId, @PathVariable Long replyId) {
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) user.getPrincipal();
+        requestDto.setMember(member);
+        replyService.replyToReply(requestDto, boardId,replyId);
 
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "답글달기",null), HttpStatus.OK);
+    }
     @GetMapping(value = "/board/{boardId}/replies")
     public ResponseEntity replyList(@PathVariable Long boardId) {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글 목록", replyService.replyList(boardId)), HttpStatus.OK);
+    }
+    @GetMapping(value = "/reply/{replyId}")
+    public ResponseEntity reply2List(@PathVariable Long replyId) {
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "댓글 목록", replyService.reply2List(replyId)), HttpStatus.OK);
     }
     @PostMapping("/board/reply/{replyId}")
     public ResponseEntity replyDelete(@PathVariable Long replyId) {

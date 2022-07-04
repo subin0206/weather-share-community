@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -29,7 +28,6 @@ public class MemberService {
     private final FollowRepository followRepository;
     @Transactional
     public void save(MemberSaveRequestDto requestDto, MultipartFile multipartFile) throws IOException {
-        duplicationMember(requestDto);
         requestDto.setPwd(passwordEncoder.encode(requestDto.getPwd()));
         try {
             if (multipartFile.isEmpty()) {
@@ -97,13 +95,13 @@ public class MemberService {
     }
 
     @Transactional
-    public void duplicationMember(MemberSaveRequestDto requestDto){
-        boolean result = true;
-        Optional<Member> checkEmail = memberRepository.findByUserEmail(requestDto.getUserEmail());
-        Optional<Member> checkMember = memberRepository.findByNickName(requestDto.getNickName());
-        if (checkMember.isPresent() || checkEmail.isPresent()) {
-            result = false;
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
+    public boolean checkEmailDuplicate(String email) {
+        return memberRepository.existsByUserEmail(email);
     }
+
+    @Transactional
+    public boolean checkNickNameDuplicate(String nickName) {
+        return memberRepository.existsByNickName(nickName);
+    }
+
 }
