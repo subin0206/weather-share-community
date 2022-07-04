@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -41,11 +46,21 @@ public class MemberController {
 
     @PostMapping("user/join")
     @ResponseBody
-    public ResponseEntity join(@Validated @RequestPart(value = "requestDto",required = false) MemberSaveRequestDto requestDto, @RequestPart(value = "profile", required = false) final MultipartFile multipartFile) throws IOException {
+    public ResponseEntity join(@Valid @RequestPart(value = "requestDto",required = false) MemberSaveRequestDto requestDto, @RequestPart(value = "profile", required = false) final MultipartFile multipartFile, Errors errors) throws IOException {
 
-        System.out.println("bbbbbbbb" + requestDto.getPwd());
+        if (errors.hasErrors()) {
+            Map<String, String> error = new HashMap<>();
+            List<String> messages = new ArrayList<>();
+            String message = "";
+            for (FieldError value : errors.getFieldErrors()) {
+                error.put(value.getField(), value.getDefaultMessage());
+                messages.add(value.getDefaultMessage());
+                message = value.getDefaultMessage();
+            }
+            return new ResponseEntity(DefaultRes.defaultRes(StatusCode.FORBIDDEN, message), HttpStatus.OK);
+        }
         memberService.save(requestDto, multipartFile);
-        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.NOT_FOUND, "회원가입 성공"), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "회원가입 성공"), HttpStatus.OK);
     }
 
     @PostMapping("user/login")
@@ -126,5 +141,16 @@ public class MemberController {
         return new ResponseEntity(DefaultRes.defaultRes(StatusCode.OK, "게시글 개수", memberFeedService.postCount(member.getId())),HttpStatus.OK);
     }
 
+    @ResponseBody
+    @PostMapping("/check/user_email")
+    public ResponseEntity<Boolean> checkEmail(@RequestBody  MemberSaveRequestDto memberSaveRequestDto) {
+        return ResponseEntity.ok(memberService.checkEmailDuplicate(memberSaveRequestDto.getUserEmail()));
 
+    }
+    @ResponseBody
+    @PostMapping("/check/nick_name")
+    public ResponseEntity<Boolean> checkNickName(@RequestBody MemberSaveRequestDto memberSaveRequestDto) {
+        return ResponseEntity.ok(memberService.checkNickNameDuplicate(memberSaveRequestDto.getNickName()));
+
+    }
 }

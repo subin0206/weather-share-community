@@ -57,6 +57,8 @@ dependencies {
 	//N+1
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 	
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 
 }
 

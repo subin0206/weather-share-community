@@ -5,6 +5,7 @@ import com.springproject.weathersharecommunity.domain.Board;
 import com.springproject.weathersharecommunity.domain.Member;
 import com.springproject.weathersharecommunity.domain.clothes.Clothes;
 import com.springproject.weathersharecommunity.repository.BoardRepository;
+import com.springproject.weathersharecommunity.repository.ClothesRepository;
 import com.springproject.weathersharecommunity.repository.ImageRepository;
 import com.springproject.weathersharecommunity.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,14 @@ public class BoardService {
 
     private final MemberRepository memberRepository;
 
-
+    private final ClothesRepository clothesRepository;
     @Transactional
     public BoardResponseDto boardDetail(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("글을 찾을수 없습니다."));
         List<String> images = imageRepository.findUrlByBoardId(boardId);
-        BoardResponseDto boardResponseDto = new BoardResponseDto(board, images, null);
+        Clothes clothes = clothesRepository.findAllByBoardId(boardId);
+        ClothesResponseDto clothesResponseDto = new ClothesResponseDto(clothes);
+        BoardResponseDto boardResponseDto = new BoardResponseDto(board, images, null, clothesResponseDto);
         Long memberId = board.getMember().getId();
         Member entity = memberRepository.findById(memberId)
                 .orElseThrow(()->new IllegalArgumentException("해당 사용자가 없습니다."));
