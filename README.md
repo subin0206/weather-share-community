@@ -23,8 +23,8 @@ weather-share-community
 |method|Post|
 |url|/user/join|
 |file|1개, name= "profile", null 가능|
-|Body|{"userName" : "bbbb", "userEmail":"bbbb@bbbb.com", "pwd" : "bbbb"}|   
-|참고|서버에서 보낸 메일에 있는 링크를 클릭해야 회원활동 가능, 유효한 메일로 가입해 테스트
+|Body|{"nickName" : "bbbb", "userEmail":"bbbb@bbbb.com", "pwd" : "bbbb"}|   
+|참고| 프로필 제외한 나머지 속성들 null 불가능, 이메일 @ 없이 보내면 오류
 
 ```
 {
@@ -39,13 +39,39 @@ weather-share-community
 |method|Post|
 |url|/user/login|
 |Header|X-AUTH-TOKEN|
-|Body|{"userName" : "bbbb","pwd" : "bbbb"}|   
+|Body|{"userEmail" : "bbbb","pwd" : "bbbb"}|   
 
 ```
 {
     "statusCode": 200,
     "responseMessage": "로그인 성공",
     "data": "token값"
+}
+```   
+#### 닉네임 중복체크
+|||
+|------|---|
+|method|Post|
+|url|/check/nick_name|
+|Body|{"nickName" : "bbbb"}|   
+|참고| 중복된 닉네임이면 true, 없는 닉네임이면 false 
+
+```
+{
+    true or false
+}
+```   
+#### 이메일 중복체크
+|||
+|------|---|
+|method|Post|
+|url|/check/user_email|
+|Body|{"userEmail" : "bbbb@bbbb.com"}|   
+|참고| 중복된 이메일이면 true, 없는 이메일이면 false 
+
+```
+{
+    true or false
 }
 ```   
 #### 마이페이지
@@ -272,6 +298,20 @@ weather-share-community
     "data": null
 }
 ```   
+#### 답글
+|||
+|------|---|
+|method|Post|
+|url|/board/{boardId}/reply/{replyId}|
+|Header|X-AUTH-TOKEN|
+|Body|{"content" : "hi"}|   
+```
+{
+    "statusCode": 200,
+    "responseMessage": "답글달기"
+    "data": null
+}
+``` 
 #### 댓글목록
 |||
 |------|---|
@@ -302,7 +342,32 @@ weather-share-community
         }
     ]
 }
-```   
+``` 
+#### 답글목록
+|||
+|------|---|
+|method|Get|
+|url|/reply/{replyId}|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "답글 목록",
+    "data": [
+        {
+            "id": 1,
+            "content": "reply test",
+            "memberName": "kim3",
+            "profileUrl": ""
+        },
+        {
+            "id": 2,
+            "content": "reply test2",
+            "memberName": "kim3",
+            "profileUrl": ""
+        }
+    ]
+}
+``` 
 #### 댓글 삭제
 |||
 |------|---|
