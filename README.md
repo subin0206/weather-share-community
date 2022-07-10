@@ -508,3 +508,20 @@ http://3.38.56.88:8080/
     ]
 }
 ```   
+
+#### 내가 팔로우 한 사람 수
+|||
+|------|---|
+|method|Get|
+|url|/follow/getFollowingCount|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로잉 수",
+    "data": 1
+    ]
+}
+```   
+
+
