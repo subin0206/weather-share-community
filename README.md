@@ -42,7 +42,7 @@ http://3.38.56.88:8080/
 |method|Post|
 |url|/user/login|
 |Header|X-AUTH-TOKEN|
-|Body|{"userEmail" : "bbbb@bbbb.com","pwd" : "bbbb"}|   
+|Body|{"userEmail" : "bbbb","pwd" : "bbbb"}|   
 
 ```
 {
@@ -191,27 +191,31 @@ http://3.38.56.88:8080/
     "statusCode": 200,
     "responseMessage": "글 성공",
     "data": {
-        "id": 137,
-        "content": "테스트",
-        "createDate": "2022-07-10T13:20:41.567759",
+        "id": 130,
+        "content": "옷 테스트",
+        "privacy": false,
+        "createDate": "2022-07-10T13:23:16.2606948",
+        "status": null,
         "skyCode": "흐림",
-        "presentTemperature": "30",
-        "highestTemperature": "32",
-        "lowestTemperature": "24",
+        "presentTemperature": "25",
+        "highestTemperature": "31",
+        "lowestTemperature": "22",
         "codyDate": "2022-07-10",
         "clothes": null,
-        "images": [],
+        "images": [
+            "이미지 url"
+        ],
         "memberResponseDto": {
-            "id": 2,
-            "nickName": "kim3",
-            "userEmail": "cccc@cccc.com",
-            "profileUrl": ""
+            "id": 1,
+            "nickName": "kim2",
+            "userEmail": "bbbb@bbbb.com",
+            "profileUrl": "프로필 url"
         },
         "clothesResponseDto": {
-            "top": "후드",
-            "bottom": "트레이닝 바지",
-            "outerClothing": "자켓",
-            "shoes": "운동화",
+            "top": "민소매",
+            "bottom": "슬랙스",
+            "outerClothing": "가디건",
+            "shoes": "단화",
             "accessory1": "",
             "accessory2": ""
         }
@@ -462,38 +466,29 @@ http://3.38.56.88:8080/
     "data": null
 }
 ```   
-#### 내가 팔로우 한 사람들 
-|||
-|------|---|
-|method|Delete|
-|url|/follow/getFollowing|
-|Header|X-AUTH-TOKEN|
-```
-{
-    "statusCode": 200,
-    "responseMessage": "팔로잉 리스트",
-    "data": [
-
-        {
-            "fromMemberId": 5,
-            "toMemberId": 3
-        }
-    ]
-}
-```  
-#### 내가 팔로우 한 사람들 수
+#### 해당 유저를 팔로우하는 사람들 리스트
 |||
 |------|---|
 |method|Get|
-|url|/follow/getFollowingCount|
-|Header|X-AUTH-TOKEN|
+|url|/follow/getFollower/{toMemberId}|
+|참고|로그인 여부 상관 없이 어떤 유저가 팔로우하는 리스트를 확인 할 수 있음, toMemberId는 팔로우 리스트를 확인하고 싶은 유저, 로그인 없이 확인 가능|
 ```
 {
     "statusCode": 200,
-    "responseMessage": "팔로잉 수",
-    "data": 1
+    "responseMessage": "팔로우 리스트",
+    "data": [
+        {
+            "fromMemberId": 3,
+            "toMemberId": 4
+        },
+        {
+            "fromMemberId": 3,
+            "toMemberId": 5
+        }
+    ]
 }
-```   
+``` 
+
 #### 내가 팔로우 한 사람들 
 |||
 |------|---|
@@ -512,4 +507,4 @@ http://3.38.56.88:8080/
         }
     ]
 }
-```  
+```   
