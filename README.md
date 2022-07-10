@@ -169,8 +169,8 @@ http://3.38.56.88:8080/
 |method|Post|
 |url|/board/save|
 |Header|X-AUTH-TOKEN|  
-|Body|{ "content": "test", "privacy": true, "status" : "HOT","presentTemperature":"17","highestTemperature":"19","lowestTemperature":"10"}|
-|file|null 불가능, 3개까지|
+|Body|{"requestDto":{ "content": "하늘상태 테스트", "privacy": true, "status" : "HOT", "skyCode":"흐림","presentTemperature":"30","highestTemperature":"32","lowestTemperature":"24"},"clothes" : {"top" : "후드", "bottom":"트레이닝 바지", "outerClothing":"자켓","shoes" : "운동화", "accessory1":"모자", "accessory2":"선글라스"}|
+|image|null 불가능, 3개까지|
 |참고|status는 HOT, WARM, BEST, COLD, COOL 중 하나로 보내야함|
 
 ```
@@ -191,22 +191,29 @@ http://3.38.56.88:8080/
     "statusCode": 200,
     "responseMessage": "글 성공",
     "data": {
-        "content": "test4",
-        "privacy": false,
-        "createDate": "2022-05-01T13:41:34.3370081",
-        "status": "HOT",
-        "presentTemperature": "10",
-        "highestTemperature": "17",
-        "lowestTemperature": "5",
-        "images": [
-            "img url1",
-            "img url2"
-        ],
+        "id": 137,
+        "content": "테스트",
+        "createDate": "2022-07-10T13:20:41.567759",
+        "skyCode": "흐림",
+        "presentTemperature": "30",
+        "highestTemperature": "32",
+        "lowestTemperature": "24",
+        "codyDate": "2022-07-10",
+        "clothes": null,
+        "images": [],
         "memberResponseDto": {
-            "id": 10,
-            "userName": "eeee",
-            "userEmail": "eeee@eeee.com",
-            "profileUrl": "img url"
+            "id": 2,
+            "nickName": "kim3",
+            "userEmail": "cccc@cccc.com",
+            "profileUrl": ""
+        },
+        "clothesResponseDto": {
+            "top": "후드",
+            "bottom": "트레이닝 바지",
+            "outerClothing": "자켓",
+            "shoes": "운동화",
+            "accessory1": "",
+            "accessory2": ""
         }
     }
 }
