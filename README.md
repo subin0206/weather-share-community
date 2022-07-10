@@ -15,6 +15,9 @@ weather-share-community
 ## ERD
 <img src="https://user-images.githubusercontent.com/46561481/159428668-71f49c88-b20e-44d4-bd6b-790c71a6072d.png" width="700px" height="500px"></img>
 
+## base_url
+http://3.38.56.88:8080/
+
 ## API
 ### User
 #### 회원가입
