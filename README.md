@@ -520,7 +520,7 @@ http://3.38.56.88:8080/
     "statusCode": 200,
     "responseMessage": "팔로잉 수",
     "data": 1
-    ]
+    
 }
 ```   
 
