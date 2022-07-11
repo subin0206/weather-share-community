@@ -524,4 +524,142 @@ http://3.38.56.88:8080/
 }
 ```   
 
+#### 내가 팔로우한 사람 피드
+|||
+|------|---|
+|method|Get|
+|url|/boards/main|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로잉 ",
+    "data": [
+        {
+            "id": 1,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        },
+        {
+            "id": 4,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/adf4788f-4784-40ac-9848-33914b3f4d36.PNG"
+        },
+        {
+            "id": 7,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c078980c-1434-4cec-b47d-59ef145b0b80.PNG"
+        }
+    ]
+}
+```  
+### search 
+#### 키워드 검색하기   
+|||
+|------|---|
+|method|Get|
+|url|/board/search|
+|Header|X-AUTH-TOKEN|
+|Param|keyword|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "검색",
+    "data": [
+        {
+            "id": 1,
+            "content": "test content1",
+            "privacy": false,
+            "createDate": "2022-07-11T17:09:09.4803631",
+            "status": null,
+            "memberName": "park",
+            "profileUrl": "",
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        }
+    ]
+}
+```    
+
+#### 키워드 검색하기(사진/이미지)
+|||
+|------|---|
+|method|Get|
+|url|/board/searchImg|
+|Header|X-AUTH-TOKEN|
+|Param|keyword|
+|참고| 키워드 검색시 업로드한 게시물 id와 작성자 프로필 사진만 가져옴 |
+```
+{
+   "statusCode": 200,
+    "responseMessage": "검색",
+    "data": [
+        {
+            "id": 1,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        }
+    ]
+}
+```
+### myFeed
+#### 개인피드(내 피드)
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeed|
+|Header|X-AUTH-TOKEN|
+```
+{
+   "statusCode": 200,
+    "responseMessage": "개인 피드",
+    "data": [
+        {
+            "id": 10,
+            "content": "test content4",
+            "privacy": false,
+            "createDate": "2022-07-11T17:14:58.747141",
+            "status": null,
+            "memberName": "kim2",
+            "profileUrl": "",
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c5a16e1a-5c37-4e16-810f-fb21d0ab0fbe.PNG"
+        }
+    ]
+}
+```
+#### 개인피드(사진/이미지)
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeedImg|
+|Header|X-AUTH-TOKEN|
+|참고| 게시물의 id와 프로필 사진만 가져옴 |
+```
+{
+   "statusCode": 200,
+    "responseMessage": "개인 피드",
+    "data": [
+        {
+            "id": 10,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c5a16e1a-5c37-4e16-810f-fb21d0ab0fbe.PNG"
+        }
+    ]
+}
+```
+
+#### 개인피드 수
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeedCount|
+|Header|X-AUTH-TOKEN|
+```
+{
+   "statusCode": 200,
+    "responseMessage": "게시글 개수",
+    "data": 1
+}
+```
+
+
+
+
+
+
+
 
