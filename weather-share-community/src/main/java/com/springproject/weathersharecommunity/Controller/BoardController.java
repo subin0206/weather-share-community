@@ -40,6 +40,7 @@ public class BoardController {
     }
 
     @PostMapping(value = "/board/save")
+
     public ResponseEntity boardSave(@RequestPart BoardRequestDto requestDto,@RequestPart(value = "clothes") Clothes clothes,@RequestPart(required = false) List<MultipartFile> images){
         requestDto.setClothes(clothes);
         boardService.save(requestDto,clothes ,images);

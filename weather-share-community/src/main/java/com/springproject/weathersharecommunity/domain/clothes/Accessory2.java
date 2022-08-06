@@ -1,6 +1,7 @@
 package com.springproject.weathersharecommunity.domain.clothes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import lombok.Getter;
 
 @Getter
