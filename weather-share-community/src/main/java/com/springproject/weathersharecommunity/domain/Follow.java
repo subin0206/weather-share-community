@@ -20,11 +20,10 @@ public class Follow {
     @ManyToOne
     private Member fromMember; //구독 하는 사람
 
+
     @JoinColumn(name = "to_member_id")
     @ManyToOne
     private Member toMember; //구독 당하는 사람
-
-
 
     @Builder
     public Follow (Member fromMember, Member toMember) {

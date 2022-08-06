@@ -15,6 +15,9 @@ weather-share-community
 ## ERD
 <img src="https://user-images.githubusercontent.com/46561481/159428668-71f49c88-b20e-44d4-bd6b-790c71a6072d.png" width="700px" height="500px"></img>
 
+## base_url
+http://3.38.56.88:8080/
+
 ## API
 ### User
 #### 회원가입
@@ -23,8 +26,8 @@ weather-share-community
 |method|Post|
 |url|/user/join|
 |file|1개, name= "profile", null 가능|
-|Body|{"userName" : "bbbb", "userEmail":"bbbb@bbbb.com", "pwd" : "bbbb"}|   
-|참고|서버에서 보낸 메일에 있는 링크를 클릭해야 회원활동 가능, 유효한 메일로 가입해 테스트
+|Body|{"nickName" : "bbbb", "userEmail":"bbbb@bbbb.com", "pwd" : "bbbb"}|   
+|참고| 프로필 제외한 나머지 속성들 null 불가능, 이메일 @ 없이 보내면 오류
 
 ```
 {
@@ -39,13 +42,39 @@ weather-share-community
 |method|Post|
 |url|/user/login|
 |Header|X-AUTH-TOKEN|
-|Body|{"userName" : "bbbb","pwd" : "bbbb"}|   
+|Body|{"userEmail" : "bbbb","pwd" : "bbbb"}|   
 
 ```
 {
     "statusCode": 200,
     "responseMessage": "로그인 성공",
     "data": "token값"
+}
+```   
+#### 닉네임 중복체크
+|||
+|------|---|
+|method|Post|
+|url|/check/nick_name|
+|Body|{"nickName" : "bbbb"}|   
+|참고| 중복된 닉네임이면 true, 없는 닉네임이면 false 
+
+```
+{
+    true or false
+}
+```   
+#### 이메일 중복체크
+|||
+|------|---|
+|method|Post|
+|url|/check/user_email|
+|Body|{"userEmail" : "bbbb@bbbb.com"}|   
+|참고| 중복된 이메일이면 true, 없는 이메일이면 false 
+
+```
+{
+    true or false
 }
 ```   
 #### 마이페이지
@@ -140,8 +169,8 @@ weather-share-community
 |method|Post|
 |url|/board/save|
 |Header|X-AUTH-TOKEN|  
-|Body|{ "content": "test", "privacy": true, "status" : "HOT","presentTemperature":"17","highestTemperature":"19","lowestTemperature":"10"}|
-|file|null 불가능, 3개까지|
+|Body|{"requestDto":{ "content": "하늘상태 테스트", "privacy": true, "status" : "HOT", "skyCode":"흐림","presentTemperature":"30","highestTemperature":"32","lowestTemperature":"24"},"clothes" : {"top" : "후드", "bottom":"트레이닝 바지", "outerClothing":"자켓","shoes" : "운동화", "accessory1":"모자", "accessory2":"선글라스"}|
+|image|null 불가능, 3개까지|
 |참고|status는 HOT, WARM, BEST, COLD, COOL 중 하나로 보내야함|
 
 ```
@@ -162,22 +191,33 @@ weather-share-community
     "statusCode": 200,
     "responseMessage": "글 성공",
     "data": {
-        "content": "test4",
+        "id": 130,
+        "content": "옷 테스트",
         "privacy": false,
-        "createDate": "2022-05-01T13:41:34.3370081",
-        "status": "HOT",
-        "presentTemperature": "10",
-        "highestTemperature": "17",
-        "lowestTemperature": "5",
+        "createDate": "2022-07-10T13:23:16.2606948",
+        "status": null,
+        "skyCode": "흐림",
+        "presentTemperature": "25",
+        "highestTemperature": "31",
+        "lowestTemperature": "22",
+        "codyDate": "2022-07-10",
+        "clothes": null,
         "images": [
-            "img url1",
-            "img url2"
+            "이미지 url"
         ],
         "memberResponseDto": {
-            "id": 10,
-            "userName": "eeee",
-            "userEmail": "eeee@eeee.com",
-            "profileUrl": "img url"
+            "id": 1,
+            "nickName": "kim2",
+            "userEmail": "bbbb@bbbb.com",
+            "profileUrl": "프로필 url"
+        },
+        "clothesResponseDto": {
+            "top": "민소매",
+            "bottom": "슬랙스",
+            "outerClothing": "가디건",
+            "shoes": "단화",
+            "accessory1": "",
+            "accessory2": ""
         }
     }
 }
@@ -272,6 +312,20 @@ weather-share-community
     "data": null
 }
 ```   
+#### 답글
+|||
+|------|---|
+|method|Post|
+|url|/board/{boardId}/reply/{replyId}|
+|Header|X-AUTH-TOKEN|
+|Body|{"content" : "hi"}|   
+```
+{
+    "statusCode": 200,
+    "responseMessage": "답글달기"
+    "data": null
+}
+``` 
 #### 댓글목록
 |||
 |------|---|
@@ -302,7 +356,32 @@ weather-share-community
         }
     ]
 }
-```   
+``` 
+#### 답글목록
+|||
+|------|---|
+|method|Get|
+|url|/reply/{replyId}|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "답글 목록",
+    "data": [
+        {
+            "id": 1,
+            "content": "reply test",
+            "memberName": "kim3",
+            "profileUrl": ""
+        },
+        {
+            "id": 2,
+            "content": "reply test2",
+            "memberName": "kim3",
+            "profileUrl": ""
+        }
+    ]
+}
+``` 
 #### 댓글 삭제
 |||
 |------|---|
@@ -429,3 +508,158 @@ weather-share-community
     ]
 }
 ```   
+
+#### 내가 팔로우 한 사람 수
+|||
+|------|---|
+|method|Get|
+|url|/follow/getFollowingCount|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로잉 수",
+    "data": 1
+    
+}
+```   
+
+#### 내가 팔로우한 사람 피드
+|||
+|------|---|
+|method|Get|
+|url|/boards/main|
+|Header|X-AUTH-TOKEN|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "팔로잉 ",
+    "data": [
+        {
+            "id": 1,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        },
+        {
+            "id": 4,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/adf4788f-4784-40ac-9848-33914b3f4d36.PNG"
+        },
+        {
+            "id": 7,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c078980c-1434-4cec-b47d-59ef145b0b80.PNG"
+        }
+    ]
+}
+```  
+### search 
+#### 키워드 검색하기   
+|||
+|------|---|
+|method|Get|
+|url|/board/search|
+|Header|X-AUTH-TOKEN|
+|Param|keyword|
+```
+{
+    "statusCode": 200,
+    "responseMessage": "검색",
+    "data": [
+        {
+            "id": 1,
+            "content": "test content1",
+            "privacy": false,
+            "createDate": "2022-07-11T17:09:09.4803631",
+            "status": null,
+            "memberName": "park",
+            "profileUrl": "",
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        }
+    ]
+}
+```    
+
+#### 키워드 검색하기(사진/이미지)
+|||
+|------|---|
+|method|Get|
+|url|/board/searchImg|
+|Header|X-AUTH-TOKEN|
+|Param|keyword|
+|참고| 키워드 검색시 업로드한 게시물 id와 작성자 프로필 사진만 가져옴 |
+```
+{
+   "statusCode": 200,
+    "responseMessage": "검색",
+    "data": [
+        {
+            "id": 1,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c982460c-ac61-468d-8f9a-d61a326b0c60.PNG"
+        }
+    ]
+}
+```
+### myFeed
+#### 개인피드(내 피드)
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeed|
+|Header|X-AUTH-TOKEN|
+```
+{
+   "statusCode": 200,
+    "responseMessage": "개인 피드",
+    "data": [
+        {
+            "id": 10,
+            "content": "test content4",
+            "privacy": false,
+            "createDate": "2022-07-11T17:14:58.747141",
+            "status": null,
+            "memberName": "kim2",
+            "profileUrl": "",
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c5a16e1a-5c37-4e16-810f-fb21d0ab0fbe.PNG"
+        }
+    ]
+}
+```
+#### 개인피드(사진/이미지)
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeedImg|
+|Header|X-AUTH-TOKEN|
+|참고| 게시물의 id와 프로필 사진만 가져옴 |
+```
+{
+   "statusCode": 200,
+    "responseMessage": "개인 피드",
+    "data": [
+        {
+            "id": 10,
+            "imgUrl": "https://weatherawsbucket.s3.ap-northeast-2.amazonaws.com/c5a16e1a-5c37-4e16-810f-fb21d0ab0fbe.PNG"
+        }
+    ]
+}
+```
+
+#### 개인피드 수
+|||
+|------|---|
+|method|Get|
+|url|/user/memberFeedCount|
+|Header|X-AUTH-TOKEN|
+```
+{
+   "statusCode": 200,
+    "responseMessage": "게시글 개수",
+    "data": 1
+}
+```
+
+
+
+
+
+
+
+

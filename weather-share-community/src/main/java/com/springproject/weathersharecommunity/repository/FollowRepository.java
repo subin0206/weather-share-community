@@ -5,10 +5,11 @@ import com.springproject.weathersharecommunity.domain.Follow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface FollowRepository extends JpaRepository<Follow, Integer> {
+public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     Follow findFollowByFromMemberIdAndToMemberId(long from_member_id, long to_member_Id);
 
@@ -27,8 +28,7 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
     @Query(value = "DELETE FROM follow WHERE from_member_id = :fromMemberId AND to_member_id = :toMemberId", nativeQuery = true)
     void unFollow(long fromMemberId, long toMemberId);
 
-    @Query(value = "SELECT * FROM board WHERE member_id IN (SELECT to_member_id FROM FOLLOW WHERE from_member_id = :id) order by id desc", nativeQuery = true)
-    List<Board> followingPosts();
 
 
+    List<Follow> findToMemberIdByFromMemberId(long fromMemberId);
 }

@@ -85,6 +85,7 @@ public class Board {
 
     private String lowestTemperature;
 
+
     @Builder
     public Board(String content, Member member, boolean privacy, LocalDateTime createDate, WeatherStatus status, SkyCode skyCode,Clothes clothes, String presentTemperature, String highestTemperature, String lowestTemperature, LocalDate codyDate) {
         this.content = content;

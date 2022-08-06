@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class ReplyListResponseDto {
+public class Reply2ListResponseDto {
 
     private Long id;
 
@@ -16,7 +16,7 @@ public class ReplyListResponseDto {
     private String memberName;
     private String profileUrl;
 
-    public ReplyListResponseDto(Reply entity) {
+    public Reply2ListResponseDto(Reply2 entity) {
         this.id = entity.getId();
         this.content = entity.getContent();
         this.memberName = entity.getMember().getUsername();
